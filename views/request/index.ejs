@@ -1,0 +1,47 @@
+<% include ../_layout/header %>
+
+<div id="app">
+    <section class="hero is-light">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Input Request
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <form>
+        <div class="columns">
+            <div class="column is-half is-offset-one-quarter">
+                <div class="field">
+                    <label class="label">Tanggal</label>
+                    <div class="control">
+                        <input class="input" type="date">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Jam</label>
+                    <div class="control">
+                        <input class="input" type="time" step="1">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Isi request</label>
+                    <div class="control">
+                        <textarea class="textarea" cols="30" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Keterangan</label>
+                    <div class="control">
+                        <textarea class="textarea" cols="30" rows="5"></textarea>
+                    </div>
+                </div>
+                <button class="button is-primary is-pulled-right" type="submit">Simpan</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<% include ../_layout/footer %>

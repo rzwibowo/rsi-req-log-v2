@@ -1,0 +1,22 @@
+{
+  "name": "request-log",
+  "version": "1.0.0",
+  "description": "Pencatat request harian",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "request",
+    "log"
+  ],
+  "author": "wibowo",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "mysql": "^2.17.1"
+  }
+}
