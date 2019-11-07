@@ -22,6 +22,10 @@ const requestRoute = require(__dirname + '/../views/request/route.js');
 app.use('/request', requestRoute);
 app.use('/request', express.static(__dirname + '/../public'));
 
+const userRoute = require(__dirname + '/../views/user/route.js');
+app.use('/user', userRoute);
+app.use('/user', express.static(__dirname + '/../public'));
+
 // const usersRoute = require(__dirname + '/../views/users/route.js');
 // app.use('/users', usersRoute);
 // app.use('/users', express.static(__dirname + '/../public'));

@@ -11,19 +11,19 @@
         </div>
     </section>
 
-    <form>
+    <form @submit.prevent="login">
         <div class="columns">
             <div class="column is-half is-offset-one-quarter">
                 <div class="field">
                     <label class="label">Username</label>
                     <div class="control">
-                        <input class="input" type="text">
+                        <input class="input" type="text" v-model="user.username">
                     </div>
                 </div>
                 <div class="field">
                     <label class="label">Password</label>
                     <div class="control">
-                        <input class="input" type="password">
+                        <input class="input" type="password" v-model="user.psword">
                     </div>
                 </div>
                 <button class="button is-primary is-pulled-right" type="submit">Login</button>
@@ -32,6 +32,7 @@
     </form>
 </div>
 
+<script src="/js/axios.min.js"></script>
 <script src="/js/user/login.js"></script>
 
 <% include ../_layout/l_foot %>
