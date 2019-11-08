@@ -1,0 +1,66 @@
+<% include ../_layout/header %>
+
+<div id="app">
+    <section class="hero is-light">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Laporan Harian
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <div class="columns">
+        <div class="column is-half is-offset-one-quarter">
+            <div class="field">
+                <label class="label">Pilih tanggal</label>
+                <div class="control">
+                    <input class="input" type="date" v-model="tanggal" 
+                        @change="listRequest">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns is-centered is-multiline">
+        <div class="column is-narrow">
+            <h4 class="title is-4">Permintaan Tanggal {{ tanggal | fmtTanggal }}</h4>
+        </div>
+    </div>
+
+    <div class="columns is-centered is-multiline">
+        <div class="column is-narrow">
+            <table class="table" v-if="requests.length > 0">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Jam</th>
+                        <th>Bagian</th>
+                        <th>Isi Request</th>
+                        <th>Keterangan</th>
+                        <th>Petugas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(req, index) in requests" :key="index">
+                        <td>{{ index + 1 }}.</td>
+                        <td>{{ req.jam }}</td>
+                        <td>{{ req.bagian }}</td>
+                        <td>{{ req.isi_request }}</td>
+                        <td>{{ req.keterangan }}</td>
+                        <td>{{ req.petugas }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="notification is-warning" v-else>
+                Tidak Ditemukan Data ...
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/axios.min.js"></script>
+<script src="/js/laporan/harian.js"></script>
+
+<% include ../_layout/footer %>
