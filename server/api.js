@@ -18,17 +18,20 @@ connection.connect(function (err) {
 });
 
 //#region REQUEST data operation
-// router.get('/listUsers', (req, res) => {
-//     connection.query("SELECT id, username, nama, email FROM users",
-//         function (err, result) {
-//             if (err) throw err;
-//             const data = result;
-//             res.status(200).send({
-//                 success: 'true',
-//                 data: data
-//             })
-//         });
-// });
+router.get('/listRequest', (req, res) => {
+    connection.query(`SELECT id_request, tanggal, jam, bagian, isi_request,
+        keterangan, nama_lengkap AS petugas
+        FROM t_request aa
+        LEFT JOIN t_user bb ON aa.id_user = bb.id_user`,
+        function (err, result) {
+            if (err) throw err;
+            const data = result;
+            res.status(200).send({
+                success: 'true',
+                data: data
+            })
+        });
+});
 
 // router.get('/getUser/:user_id', (req, res) => {
 //     connection.query(`SELECT *
@@ -46,9 +49,10 @@ connection.connect(function (err) {
 // });
 
 router.post('/saveRequest', (req, res) => {
-    connection.query(`INSERT INTO t_request (tanggal, jam, isi_request, keterangan, id_user) 
-        VALUES (?, ?, ?, ?, ?)`, 
-        [req.body.tanggal, req.body.jam, req.body.isi_request, req.body.keterangan, req.body.id_user],
+    connection.query(`INSERT INTO t_request (tanggal, jam, bagian, isi_request, keterangan, id_user) 
+        VALUES (?, ?, ?, ?, ?, ?)`, 
+        [req.body.tanggal, req.body.jam, req.body.bagian, req.body.isi_request, req.body.keterangan, 
+            req.body.id_user],
         function (err, result) {
             if (err) console.error(err);
             res.status(200).send({
@@ -84,7 +88,6 @@ router.post('/saveRequest', (req, res) => {
 //#region USER data operation
 router.post('/login', (req, res) => {
     const pwd = crypto.createHash('md5').update(req.body.psword).digest("hex");
-    console.log(pwd)
     connection.query(`SELECT id_user, username, nama_lengkap, level
         FROM t_user
         WHERE username = ? AND psword = ?
@@ -129,7 +132,7 @@ router.get('/getUser/:user_id', (req, res) => {
 
 router.post('/saveUser', (req, res) => {
     const pwd = crypto.createHash('md5').update(req.body.psword).digest("hex");
-    connection.query(`INSERT INTO t_user (username, nama_lengkap, password, level) 
+    connection.query(`INSERT INTO t_user (username, nama_lengkap, psword, level) 
         VALUES (?, ?, ?, ?)`, 
         [req.body.username, req.body.nama_lengkap, pwd, req.body.level],
         function (err, result) {

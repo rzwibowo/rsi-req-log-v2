@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,14 +10,15 @@
 
     <script src="/js/vue.min.js"></script>
 </head>
+
 <body>
     <nav class="navbar is-transparent is-success" id="nav-main">
         <div class="navbar-brand">
             <a class="navbar-item" href="/">
                 <h4 class="title">REQUEST LOG</h4>
             </a>
-            <div class="navbar-burger burger" data-target="navbarExampleTransparentExample"
-                @click="isOpen = !isOpen" :class="{'is-active': isOpen}">
+            <div class="navbar-burger burger" data-target="navbarExampleTransparentExample" @click="isOpen = !isOpen"
+                :class="{'is-active': isOpen}">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -25,34 +27,62 @@
 
         <div id="navbarExampleTransparentExample" class="navbar-menu" :class="{'is-active': isOpen}">
             <div class="navbar-start">
-                <a class="navbar-item" href="/"> 
+                <a class="navbar-item" href="/">
                     Home
                 </a>
-                <a class="navbar-item" href="/templates">
-                    Request
-                </a>
-                <a class="navbar-item" href="/users">
-                    Pengguna
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" href="#">
+                        Request
+                    </a>
+                    <div class="navbar-dropdown is-boxed">
+                        <a class="navbar-item" href="/request">
+                            Input Request
+                        </a>
+                        <a class="navbar-item" href="/request/list">
+                            Semua Request Log
+                        </a>
+                    </div>
+                </div>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" href="#">
+                        Laporan
+                    </a>
+                    <div class="navbar-dropdown is-boxed">
+                        <a class="navbar-item" href="/request">
+                            Laporan Request per Hari
+                        </a>
+                    </div>
+                </div>
+                <a class="navbar-item" href="/user" v-if="user.level === 1">
+                    Petugas
                 </a>
             </div>
 
             <div class="navbar-end">
+                <span class="navbar-item">
+                    Petugas: &nbsp; <b>{{ user.username }}</b>
+                </span>
+                <a class="navbar-item" href="#" @click="logout">
+                    Keluar
+                </a>
                 <div class="navbar-item">
                     <div class="field is-grouped">
                         <p class="control">
-                            <a class="button is-light" data-social-network="Twitter" target="_blank" href="https://twitter.com/rzwibowo">
-                            <span class="icon">
-                                <i class="fab fa-twitter"></i>
-                            </span>
-                            <span>Follow</span>
+                            <a class="button is-light" data-social-network="Twitter" target="_blank"
+                                href="https://twitter.com/rzwibowo">
+                                <span class="icon">
+                                    <i class="fab fa-twitter"></i>
+                                </span>
+                                <span>Follow Dev</span>
                             </a>
                         </p>
                         <p class="control">
-                            <a class="button is-light" href="https://github.com/rzwibowo/smswae">
-                            <span class="icon">
-                                <i class="fab fa-github"></i>
-                            </span>
-                            <span>View Source</span>
+                            <a class="button is-light" target="_blank"
+                                href="https://github.com/rzwibowo/rsi-req-log">
+                                <span class="icon">
+                                    <i class="fab fa-github"></i>
+                                </span>
+                                <span>View Source</span>
                             </a>
                         </p>
                     </div>
@@ -61,4 +91,4 @@
         </div>
     </nav>
     <section class="section">
-        <div class="container is-fullheight">
+        <div class="container is-fullheight" style="min-height: 80vh;">

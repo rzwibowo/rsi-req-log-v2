@@ -11,31 +11,43 @@
         </div>
     </section>
 
-    <form>
+    <form @submit.prevent="saveRequest">
         <div class="columns">
             <div class="column is-half is-offset-one-quarter">
                 <div class="field">
+                    <label class="label">ID Petugas</label>
+                    <div class="control">
+                        <input class="input" type="text" v-model="request.id_user" readonly>
+                    </div>
+                </div>
+                <div class="field">
                     <label class="label">Tanggal</label>
                     <div class="control">
-                        <input class="input" type="date">
+                        <input class="input" type="date" v-model="request.tanggal">
                     </div>
                 </div>
                 <div class="field">
                     <label class="label">Jam</label>
                     <div class="control">
-                        <input class="input" type="time" step="1">
+                        <input class="input" type="time" step="1" v-model="request.jam">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Bagian</label>
+                    <div class="control">
+                        <input class="input" type="text" v-model="request.bagian">
                     </div>
                 </div>
                 <div class="field">
                     <label class="label">Isi request</label>
                     <div class="control">
-                        <textarea class="textarea" cols="30" rows="5"></textarea>
+                        <textarea class="textarea" cols="30" rows="5" v-model="request.isi_request"></textarea>
                     </div>
                 </div>
                 <div class="field">
                     <label class="label">Keterangan</label>
                     <div class="control">
-                        <textarea class="textarea" cols="30" rows="5"></textarea>
+                        <textarea class="textarea" cols="30" rows="5" v-model="request.keterangan"></textarea>
                     </div>
                 </div>
                 <button class="button is-primary is-pulled-right" type="submit">Simpan</button>
@@ -43,5 +55,8 @@
         </div>
     </form>
 </div>
+
+<script src="/js/axios.min.js"></script>
+<script src="/js/request/index.js"></script>
 
 <% include ../_layout/footer %>

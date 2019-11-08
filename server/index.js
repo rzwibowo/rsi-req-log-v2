@@ -31,5 +31,5 @@ app.use('/user', express.static(__dirname + '/../public'));
 // app.use('/users', express.static(__dirname + '/../public'));
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.redirect('request');
 });

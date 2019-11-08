@@ -3,7 +3,7 @@
     <div class="hero-body">
         <div class="container">
             <h1 class="title">
-                Daftar Pengguna
+                Daftar Petugas
             </h1>
         </div>
     </div>
@@ -43,7 +43,7 @@
                 <div class="control">
                     <button @click="toggleForm" class="button is-primary">
                         <span class="icon is-small"> <i class="fas fa-plus"></i> </span>
-                        <span> Tambah Pengguna </span>
+                        <span> Tambah Petugas </span>
                     </button>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                 <div class="modal-background"></div>
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">{{ headerModal }} Pengguna</p>
+                        <p class="modal-card-title">{{ headerModal }} Petugas</p>
                         <button class="delete" aria-label="close" @click="toggleForm"></button>
                     </header>
                     <section class="modal-card-body">
@@ -73,7 +73,7 @@
                                 <label class="label">Password:</label>
                                 <div class="control">
                                     <input class="input" type="password" name="password" v-model="user.psword" style="width: 30em"
-                                        placeholder="Kosongi jika tidak diubah">                                
+                                        :placeholder="user.id_user ? 'Kosongi jika tidak diubah' : ''">                                
                                 </div>
                             </div>
                             <div class="field">
@@ -93,7 +93,7 @@
                     </section>
                     <footer class="modal-card-foot" style="justify-content: flex-end">
                         <button class="button" @click="toggleForm">Batal</button>
-                        <button class="button is-primary" type="button" @click="saveUser(user.id)">Simpan</button>
+                        <button class="button is-primary" type="submit" @click="saveUser(user.id_user)">Simpan</button>
                     </footer>
                 </div>
             </div>

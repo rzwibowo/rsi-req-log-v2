@@ -26,7 +26,7 @@ const main_script = new Vue({
         deleteUser: function (id) {
             const cnf = confirm('Hapus data?');
             if (cnf) {
-                axios.delete('api/deleteUser', { body: JSON.stringify({id_user: id}) })
+                axios.delete('api/deleteUser', { id_user: id })
                 .then(() => {
                     alert('Terhapus');
                     this.listUsers();
@@ -46,7 +46,7 @@ const main_script = new Vue({
         },
         saveUser: function (id) {
             if (id) {
-                axios.put('/api/updateUser', { body: JSON.stringify(this.user) })
+                axios.put('/api/updateUser', this.user)
                 .then(() => {
                         this.user = {};
                         this.open = !this.open;
@@ -54,7 +54,7 @@ const main_script = new Vue({
                     })
                 .catch(err => console.error(err));
             } else {
-                axios.post('/api/saveUser', { body: JSON.stringify(this.user) })
+                axios.post('/api/saveUser', this.user)
                 .then(() => {
                         this.user = {};
                         this.open = !this.open;

@@ -5,7 +5,8 @@
             <div class="container">
                 <div class="content has-text-centered">
                 <p>
-                    <strong>request-log</strong> by <a href="https://github.com/rzwibowo">Wibowo Devs</a>.
+                    &copy; 2019.
+                    <strong>request-log</strong> made with ❤ by <a href="https://github.com/rzwibowo">Wibowo Devs</a>.
                 </p>
                 </div>
             </div>
@@ -15,7 +16,23 @@
     const navScript = new Vue({
         el: '#nav-main',
         data: {
-            isOpen: false
+            isOpen: false,
+            user: {}
+        },
+        mounted: function () {
+            this.checkAuth();
+        },
+        methods: {
+            checkAuth: function () {
+                this.user = JSON.parse(localStorage.getItem('rql_usr'));
+                if (this.user === null) {
+                    window.location.assign('/user/login');
+                }
+            },
+            logout: function () {
+                localStorage.removeItem('rql_usr');
+                this.checkAuth();
+            }
         }
     })
 </script>

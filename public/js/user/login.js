@@ -9,7 +9,7 @@ const main_script = new Vue({
             .then(res => {
                 const userdata = JSON.stringify(res.data.data[0]);
                 localStorage.setItem('rql_usr', userdata);
-                console.log(localStorage.getItem('rql_usr'));
+                window.location.assign('/request');
             })
             .catch(err => console.error(err))
         }
