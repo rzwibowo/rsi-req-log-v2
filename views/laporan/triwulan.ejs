@@ -5,7 +5,7 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    Laporan Bulanan
+                    Laporan Triwulan
                 </h1>
             </div>
         </div>
@@ -14,10 +14,17 @@
     <div class="columns">
         <div class="column is-half is-offset-one-quarter">
             <div class="field">
-                <label class="label">Pilih bulan</label>
-                <div class="control">
-                    <input class="input" type="date" v-model="bulan" 
-                        @change="listRequest">
+                <label class="label">Pilih triwulan</label>
+                <div class="select">
+                    <select v-model="triwulan" @change="listRequest">
+                        <option v-for="i in 4" :key="i" :value="i">
+                            Triwulan {{ i }}</option>
+                    </select>
+                </div>
+                <div class="select">
+                    <select v-model="tahun" @change="listRequest">
+                        <option value="2019">2019</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -25,7 +32,7 @@
 
     <div class="columns is-centered is-multiline">
         <div class="column is-narrow">
-            <h4 class="title is-4">Permintaan Bulan {{ bulan | fmtBulan }}</h4>
+            <h4 class="title is-4">Permintaan Triwulan {{ triwulan }} Tahun {{ tahun }}</h4>
         </div>
     </div>
 
@@ -46,7 +53,7 @@
                 <tbody>
                     <tr v-for="(req, index) in requests" :key="index">
                         <td>{{ index + 1 }}.</td>
-                        <td>{{ req.tanggal | fmtHari }}</td>
+                        <td>{{ req.tanggal }}</td>
                         <td>{{ req.jam }}</td>
                         <td>{{ req.nama_unit }}</td>
                         <td>{{ req.isi_request }}</td>
@@ -63,6 +70,6 @@
 </div>
 
 <script src="/js/axios.min.js"></script>
-<script src="/js/laporan/bulanan.js"></script>
+<script src="/js/laporan/triwulan.js"></script>
 
 <% include ../_layout/footer %>

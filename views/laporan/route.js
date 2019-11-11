@@ -9,4 +9,8 @@ router.get('/bulanan', function(req, res){
     res.render('laporan/bulanan');
 });
 
+router.get('/triwulan', function(req, res){
+    res.render('laporan/triwulan');
+});
+
 module.exports = router;

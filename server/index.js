@@ -26,6 +26,10 @@ const laporanRoute = require(__dirname + '/../views/laporan/route.js');
 app.use('/laporan', laporanRoute);
 app.use('/laporan', express.static(__dirname + '/../public'));
 
+const unitRoute = require(__dirname + '/../views/unit/route.js');
+app.use('/unit', unitRoute);
+app.use('/unit', express.static(__dirname + '/../public'));
+
 const userRoute = require(__dirname + '/../views/user/route.js');
 app.use('/user', userRoute);
 app.use('/user', express.static(__dirname + '/../public'));

@@ -5,13 +5,15 @@ const main_script = new Vue({
             id_user: 0,
             tanggal: "",
             jam: "",
-            bagian: "",
+            id_unit: 0,
             isi_request: "",
             keterangan: ""
-        }
+        },
+        units: []
     },
     mounted: function() {
         this.setDefault();
+        this.listUnit();
     },
     methods: {
         setDefault: function () {
@@ -35,10 +37,15 @@ const main_script = new Vue({
 
             this.request.jam = jam_fmt;
         },
+        listUnit: function () {
+            axios.get('/api/listUnit')
+            .then(res => this.units = res.data.data)
+            .catch(err => console.error(err));
+        },
         saveRequest: function () {
             axios.post('/api/saveRequest', this.request)
             .then(() => {
-                    //this.request = {};
+                    this.request = {};
                     alert("Berhasil simpan request");
                     this.setDefault();
                 })

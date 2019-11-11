@@ -13,7 +13,7 @@
 
     <form @submit.prevent="saveRequest">
         <div class="columns">
-            <div class="column is-half is-offset-one-quarter">
+            <div class="column is-one-third is-offset-one-third">
                 <div class="field">
                     <label class="label">ID Petugas</label>
                     <div class="control">
@@ -33,9 +33,12 @@
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label">Bagian</label>
-                    <div class="control">
-                        <input class="input" type="text" v-model="request.bagian">
+                    <label class="label">Unit</label>
+                    <div class="select">
+                        <select v-model="request.id_unit">
+                            <option v-for="(unit, index) in units" :value="unit.id_unit"
+                                :key="index">{{ unit.nama_unit }}</option>
+                        </select>
                     </div>
                 </div>
                 <div class="field">
