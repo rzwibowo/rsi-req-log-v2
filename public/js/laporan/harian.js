@@ -36,6 +36,16 @@ const main_script = new Vue({
             axios.get('/api/lapHarian/' + this.tanggal)
             .then(res => this.requests = res.data.data)
             .catch(err => console.error(err));
+        },
+        exportExcel: function () {
+            axios({
+                method: 'post',
+                url: '/exportx/xlharian',
+                data: this.requests,
+                responseType: 'blob'
+            })
+            .then(res => saveAs(new Blob([res.data]), "laporan-harian.xlsx"))
+            .catch(err => console.error(err));
         }
     }
 });

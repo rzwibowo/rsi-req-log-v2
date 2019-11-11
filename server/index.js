@@ -18,6 +18,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 const apiRoute = require('./api.js');
 app.use('/api', apiRoute);
 
+const exportxRoute = require('./exportx.js');
+app.use('/exportx', exportxRoute);
+
 const requestRoute = require(__dirname + '/../views/request/route.js');
 app.use('/request', requestRoute);
 app.use('/request', express.static(__dirname + '/../public'));
