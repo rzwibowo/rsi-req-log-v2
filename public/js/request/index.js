@@ -36,20 +36,38 @@ const main_script = new Vue({
             const jam_fmt = `${jam}:${menit}:${detik}`;
 
             this.request.jam = jam_fmt;
+
+            const split_url = window.location.href.split('-');
+            if (split_url.length > 1) {
+                const req_id = split_url[1];
+
+                axios.get('/api/getRequest/' + req_id)
+                .then(res => this.request = res.data.data[0])
+                .catch(err => console.error(err));
+            }
         },
         listUnit: function () {
             axios.get('/api/listUnit')
-            .then(res => this.units = res.data.data)
+            .then(res => this.units = res.data.data.sort((a, b) => (a.nama_unit > b.nama_unit) ? 1 : -1))
             .catch(err => console.error(err));
         },
         saveRequest: function () {
-            axios.post('/api/saveRequest', this.request)
-            .then(() => {
-                    this.request = {};
-                    alert("Berhasil simpan request");
+            if (this.request.id_request) {
+                axios.put('/api/updateRequest', this.request)
+                .then(() => {
+                    alert("Berhasil perbarui request");
                     this.setDefault();
                 })
-            .catch(err => console.error(err));
+                .catch(err => console.error(err));
+            } else {
+                axios.post('/api/saveRequest', this.request)
+                .then(() => {
+                        this.request = {};
+                        alert("Berhasil simpan request");
+                        this.setDefault();
+                    })
+                .catch(err => console.error(err));
+            }
         }
     }
 });

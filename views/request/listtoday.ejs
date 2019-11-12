@@ -1,0 +1,52 @@
+<% include ../_layout/header %>
+
+<div id="app">
+    <section class="hero is-light">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Daftar Request Hari Ini, {{ tanggal | fmtTanggal }} oleh {{ petugas }}
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <div class="columns is-centered">
+        <div class="column is-narrow">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Jam</th>
+                        <th>Unit</th>
+                        <th>Isi Request</th>
+                        <th>Keterangan</th>
+                        <th>Opsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(req, index) in requests" :key="index">
+                        <td>{{ req.id_request }}</td>
+                        <td>{{ req.jam }}</td>
+                        <td>{{ req.nama_unit }}</td>
+                        <td>{{ req.isi_request }}</td>
+                        <td>{{ req.keterangan }}</td>
+                        <td>
+                            <button class="button is-text" @click="editReq(req.id_request)" title="Ubah">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="button is-text has-text-danger" @click="deleteReq(req.id_request)" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="/js/axios.min.js"></script>
+<script src="/js/request/listtoday.js"></script>
+
+<% include ../_layout/footer %>
