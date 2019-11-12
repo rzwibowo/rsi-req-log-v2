@@ -13,7 +13,7 @@
 
     <div class="columns is-centered">
         <div class="column is-narrow">
-            <table class="table">
+            <table class="table" v-if="requests.length > 0">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -42,6 +42,9 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="notification is-warning" v-else>
+                Tidak Ditemukan Data ...
+            </div>
         </div>
     </div>
 </div>
