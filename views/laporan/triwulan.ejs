@@ -12,7 +12,7 @@
     </section>
 
     <div class="columns">
-        <div class="column is-half is-offset-one-quarter">
+        <div class="column is-one-quarter is-offset-one-quarter">
             <div class="field">
                 <label class="label">Pilih triwulan</label>
                 <div class="select">
@@ -23,10 +23,19 @@
                 </div>
                 <div class="select">
                     <select v-model="tahun" @change="listRequest">
-                        <option value="2019">2019</option>
+                        <option v-for="(th, index) in tahuns" :value="th"
+                            :key="index">{{ th }}</option>
                     </select>
                 </div>
             </div>
+        </div>
+        <div class="column is-one-quarter" style="margin-top: auto" @click="exportExcel">
+            <button class="button" type="button" :disabled="!(requests.length > 0)">
+                <span class="icon is-medium">
+                    <i class="fas fa-file-download"></i>
+                </span>
+                <span>Download Sbg File Excel</span>
+            </button>
         </div>
     </div>
 
@@ -70,6 +79,7 @@
 </div>
 
 <script src="/js/axios.min.js"></script>
+<script src="/js/FileSaver.min.js"></script>
 <script src="/js/laporan/triwulan.js"></script>
 
 <% include ../_layout/footer %>

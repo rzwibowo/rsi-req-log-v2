@@ -122,7 +122,8 @@ router.get('/lapHarian/:tgl', (req, res) => {
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
         LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
-        WHERE tanggal = ?`,
+        WHERE tanggal = ?
+        ORDER BY jam`,
         [req.params.tgl],
         function (err, result) {
             if (err) throw err;
@@ -140,7 +141,8 @@ router.get('/lapBulanan/:bln', (req, res) => {
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
         LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
-        WHERE tanggal LIKE ?`,
+        WHERE tanggal LIKE ?
+        ORDER BY tanggal, jam`,
         [req.params.bln + '%'],
         function (err, result) {
             if (err) throw err;
@@ -182,7 +184,8 @@ router.get('/lapTriwulan/:thn/:triw', (req, res) => {
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
         LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
-        WHERE tanggal BETWEEN ? AND ?`,
+        WHERE tanggal BETWEEN ? AND ?
+        ORDER BY tanggal, jam`,
         [daterangestart, daterangeend],
         function (err, result) {
             if (err) throw err;

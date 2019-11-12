@@ -49,12 +49,106 @@ const specificationH = {
     }
 }
 
+const specificationB = {
+    tanggal: {
+        displayName: 'Tanggal',
+        headerStyle: styles.headerGreen,
+        width: '7'
+    },
+    jam: {
+        displayName: 'Jam',
+        headerStyle: styles.headerGreen,
+        width: '8'
+    },
+    nama_unit: {
+        displayName: 'Nama Unit',
+        headerStyle: styles.headerGreen,
+        width: '30'
+    },
+    isi_request: {
+        displayName: 'Isi Request',
+        headerStyle: styles.headerGreen,
+        width: '50'
+    },
+    keterangan: {
+        displayName: 'Keterangan',
+        headerStyle: styles.headerGreen,
+        width: '50'
+    },
+    petugas: {
+        displayName: 'Petugas',
+        headerStyle: styles.headerGreen,
+        width: '15'
+    }
+}
+
+const specificationT = {
+    tanggal: {
+        displayName: 'Tanggal',
+        headerStyle: styles.headerGreen,
+        width: '10'
+    },
+    jam: {
+        displayName: 'Jam',
+        headerStyle: styles.headerGreen,
+        width: '8'
+    },
+    nama_unit: {
+        displayName: 'Nama Unit',
+        headerStyle: styles.headerGreen,
+        width: '30'
+    },
+    isi_request: {
+        displayName: 'Isi Request',
+        headerStyle: styles.headerGreen,
+        width: '50'
+    },
+    keterangan: {
+        displayName: 'Keterangan',
+        headerStyle: styles.headerGreen,
+        width: '50'
+    },
+    petugas: {
+        displayName: 'Petugas',
+        headerStyle: styles.headerGreen,
+        width: '15'
+    }
+}
+
 router.post('/xlharian', (req, res) => {
     const report = xl.buildExport(
         [
             {
                 name: 'Laporan Harian',
                 specification: specificationH,
+                data: req.body
+            }
+        ]
+    );
+    
+    return res.status(200).send(report);
+});
+
+router.post('/xlbulanan', (req, res) => {
+    const report = xl.buildExport(
+        [
+            {
+                name: 'Laporan Bulanan',
+                specification: specificationB,
+                data: req.body
+            }
+        ]
+    );
+    
+    return res.status(200).send(report);
+});
+
+router.post('/xltriwulan', (req, res) => {
+    const report = xl.buildExport(
+        [
+            {
+                name: 'Laporan Triwulan',
+                specification: specificationT,
                 data: req.body
             }
         ]

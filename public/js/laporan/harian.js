@@ -44,7 +44,7 @@ const main_script = new Vue({
                 data: this.requests,
                 responseType: 'blob'
             })
-            .then(res => saveAs(new Blob([res.data]), "laporan-harian.xlsx"))
+            .then(res => saveAs(new Blob([res.data]), `laporan-harian-${this.tanggal}.xlsx`))
             .catch(err => console.error(err));
         }
     }

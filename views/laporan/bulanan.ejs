@@ -12,20 +12,36 @@
     </section>
 
     <div class="columns">
-        <div class="column is-half is-offset-one-quarter">
+        <div class="column is-one-quarter is-offset-one-quarter">
             <div class="field">
                 <label class="label">Pilih bulan</label>
-                <div class="control">
-                    <input class="input" type="date" v-model="bulan" 
-                        @change="listRequest">
+                <div class="select">
+                    <select v-model="bulan" @change="listRequest">
+                        <option v-for="(bl, index) in namaBulan" :key="index" :value="index + 1">
+                            {{ bl }}</option>
+                    </select>
+                </div>
+                <div class="select">
+                    <select v-model="tahun" @change="listRequest">
+                        <option v-for="(th, index) in tahuns" :value="th"
+                            :key="index">{{ th }}</option>
+                    </select>
                 </div>
             </div>
+        </div>
+        <div class="column is-one-quarter" style="margin-top: auto" @click="exportExcel">
+            <button class="button" type="button" :disabled="!(requests.length > 0)">
+                <span class="icon is-medium">
+                    <i class="fas fa-file-download"></i>
+                </span>
+                <span>Download Sbg File Excel</span>
+            </button>
         </div>
     </div>
 
     <div class="columns is-centered is-multiline">
         <div class="column is-narrow">
-            <h4 class="title is-4">Permintaan Bulan {{ bulan | fmtBulan }}</h4>
+            <h4 class="title is-4">Permintaan Bulan {{ namaBulan[bulan - 1] }} {{ tahun }}</h4>
         </div>
     </div>
 
@@ -63,6 +79,7 @@
 </div>
 
 <script src="/js/axios.min.js"></script>
+<script src="/js/FileSaver.min.js"></script>
 <script src="/js/laporan/bulanan.js"></script>
 
 <% include ../_layout/footer %>
