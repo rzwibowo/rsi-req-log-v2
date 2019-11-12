@@ -53,6 +53,8 @@
                         <textarea class="textarea" cols="30" rows="5" v-model="request.keterangan"></textarea>
                     </div>
                 </div>
+                <button class="button" type="button" @click="window.history.back()" 
+                    v-if="request.id_request">Batal</button>
                 <button class="button is-primary is-pulled-right" type="submit">Simpan</button>
             </div>
         </div>
