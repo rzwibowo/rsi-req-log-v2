@@ -43,12 +43,12 @@ const main_script = new Vue({
             .catch(err => console.error(err));
         },
         editReq: function (id) {
-            window.location.assign('/request/id-' + id)
+            window.location.assign('/request/id-' + id);
         },
         deleteReq: function (id) {
             const cnf = confirm('Hapus data?');
             if (cnf) {
-                axios.delete('/api/deleteReq', { id_request: id })
+                axios.delete('/api/deleteRequest', { id_request: id })
                 .then(() => {
                     alert('Terhapus');
                     this.listRequest();
