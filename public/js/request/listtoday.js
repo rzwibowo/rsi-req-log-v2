@@ -40,7 +40,10 @@ const main_script = new Vue({
         listRequest: function () {
             axios.get('/api/listRequest/' + this.tanggal + '/' + this.petugas_id)
             .then(res => this.requests = res.data.data)
-            .catch(err => console.error(err));
+            .catch(err => {
+                alert("Terjadi masalah: " + err)
+                console.error(err);
+            });
         },
         editReq: function (id) {
             window.location.assign('/request/id-' + id);
@@ -48,12 +51,15 @@ const main_script = new Vue({
         deleteReq: function (id) {
             const cnf = confirm('Hapus data?');
             if (cnf) {
-                axios.delete('/api/deleteRequest', { id_request: id })
+                axios.delete('/api/deleteRequest/' + id)
                 .then(() => {
                     alert('Terhapus');
                     this.listRequest();
                 })
-                .catch(err => console.error(err));
+                .catch(err => {
+                    alert("Terjadi masalah: " + err)
+                    console.error(err);
+                });
             }
         },
     }

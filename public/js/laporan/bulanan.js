@@ -42,7 +42,10 @@ const main_script = new Vue({
     
                 axios.get('/api/lapBulanan/' + fmtBulan)
                 .then(res => this.requests = res.data.data)
-                .catch(err => console.error(err));
+                .catch(err => {
+                    alert("Terjadi masalah: " + err)
+                    console.error(err);
+                });
             }
         },
         exportExcel: function () {
@@ -53,7 +56,10 @@ const main_script = new Vue({
                 responseType: 'blob'
             })
             .then(res => saveAs(new Blob([res.data]), `laporan-bulanan-${this.tahun}-${this.bulan}.xlsx`))
-            .catch(err => console.error(err));
+            .catch(err => {
+                alert("Terjadi masalah: " + err)
+                console.error(err);
+            });
         }
     }
 });

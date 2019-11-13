@@ -20,16 +20,22 @@
                         <input class="input" type="text" v-model="request.id_user" readonly>
                     </div>
                 </div>
-                <div class="field">
-                    <label class="label">Tanggal</label>
-                    <div class="control">
-                        <input class="input" type="date" v-model="request.tanggal">
+                <div class="columns">
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label">Tanggal</label>
+                            <div class="control">
+                                <input class="input" type="date" v-model="request.tanggal">
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <label class="label">Jam</label>
-                    <div class="control">
-                        <input class="input" type="time" step="1" v-model="request.jam">
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label">Jam</label>
+                            <div class="control">
+                                <input class="input" type="time" step="1" v-model="request.jam">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="field">

@@ -11,7 +11,10 @@ const main_script = new Vue({
                 localStorage.setItem('rql_usr', userdata);
                 window.location.assign('/request');
             })
-            .catch(err => console.error(err))
+            .catch(err => {
+                alert("Terjadi masalah: " + err)
+                console.error(err);
+            })
         }
     }
 });

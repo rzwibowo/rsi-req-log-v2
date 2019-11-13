@@ -23,7 +23,10 @@ const main_script = new Vue({
         listRequest: function () {
             axios.get('/api/listRequest')
             .then(res => this.requests = res.data.data)
-            .catch(err => console.error(err));
+            .catch(err => {
+                alert("Terjadi masalah: " + err)
+                console.error(err);
+            });
         }
     }
 });

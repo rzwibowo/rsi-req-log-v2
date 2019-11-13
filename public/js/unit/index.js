@@ -21,17 +21,23 @@ const main_script = new Vue({
         listUnits: function () {
             axios.get('/api/listUnit')
             .then(res => this.units = res.data.data)
-            .catch(err => console.error(err));
+            .catch(err => {
+                alert("Terjadi masalah: " + err)
+                console.error(err);
+            });
         },
         deleteUnit: function (id) {
             const cnf = confirm('Hapus data?');
             if (cnf) {
-                axios.delete('api/deleteUnit', { id_unit: id })
+                axios.delete('api/deleteUnit' + id)
                 .then(() => {
                     alert('Terhapus');
                     this.listUnits();
                 })
-                .catch(err => console.error(err));
+                .catch(err => {
+                    alert("Terjadi masalah: " + err)
+                    console.error(err);
+                });
             }
         },
         toggleForm: function () {
@@ -41,7 +47,10 @@ const main_script = new Vue({
         editUnit: function (id) {
             axios.get('api/getUnit/' + id)
             .then(res => { this.unit = res.data.data[0] })
-            .catch(err => console.error(err));
+            .catch(err => {
+                alert("Terjadi masalah: " + err)
+                console.error(err);
+            });
             this.open = !this.open;
         },
         saveUser: function (id) {
@@ -52,7 +61,10 @@ const main_script = new Vue({
                         this.open = !this.open;
                         this.listUnits();
                     })
-                .catch(err => console.error(err));
+                .catch(err => {
+                    alert("Terjadi masalah: " + err)
+                    console.error(err);
+                });
             } else {
                 axios.post('/api/saveUnit', this.unit)
                 .then(() => {
@@ -60,7 +72,10 @@ const main_script = new Vue({
                         this.open = !this.open;
                         this.listUnits();
                     })
-                .catch(err => console.error(err));
+                .catch(err => {
+                    alert("Terjadi masalah: " + err)
+                    console.error(err);
+                });
             }
         }
     }

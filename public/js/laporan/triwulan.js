@@ -33,7 +33,10 @@ const main_script = new Vue({
             if (this.triwulan && this.tahun) {
                 axios.get('/api/lapTriwulan/' + this.tahun + '/' + this.triwulan)
                     .then(res => this.requests = res.data.data)
-                    .catch(err => console.error(err));
+                    .catch(err => {
+                        alert("Terjadi masalah: " + err)
+                        console.error(err);
+                    });
             }
         },
         exportExcel: function () {
@@ -44,7 +47,10 @@ const main_script = new Vue({
                 responseType: 'blob'
             })
             .then(res => saveAs(new Blob([res.data]), `laporan-triwulan-${this.tahun}-${this.triwulan}.xlsx`))
-            .catch(err => console.error(err));
+            .catch(err => {
+                alert("Terjadi masalah: " + err)
+                console.error(err);
+            });
         }
     }
 });

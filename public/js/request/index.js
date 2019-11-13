@@ -58,7 +58,10 @@ const main_script = new Vue({
                     alert("Berhasil perbarui request");
                     this.setDefault();
                 })
-                .catch(err => console.error(err));
+                .catch(err => {
+                    alert("Terjadi masalah: " + err)
+                    console.error(err);
+                });
             } else {
                 axios.post('/api/saveRequest', this.request)
                 .then(() => {
@@ -66,7 +69,10 @@ const main_script = new Vue({
                         alert("Berhasil simpan request");
                         this.setDefault();
                     })
-                .catch(err => console.error(err));
+                .catch(err => {
+                    alert("Terjadi masalah: " + err)
+                    console.error(err);
+                });
             }
         }
     }

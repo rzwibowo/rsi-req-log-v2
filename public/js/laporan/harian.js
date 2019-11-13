@@ -35,7 +35,10 @@ const main_script = new Vue({
         listRequest: function () {
             axios.get('/api/lapHarian/' + this.tanggal)
             .then(res => this.requests = res.data.data)
-            .catch(err => console.error(err));
+            .catch(err => {
+                alert("Terjadi masalah: " + err)
+                console.error(err);
+            });
         },
         exportExcel: function () {
             axios({
@@ -45,7 +48,10 @@ const main_script = new Vue({
                 responseType: 'blob'
             })
             .then(res => saveAs(new Blob([res.data]), `laporan-harian-${this.tanggal}.xlsx`))
-            .catch(err => console.error(err));
+            .catch(err => {
+                alert("Terjadi masalah: " + err)
+                console.error(err);
+            });
         }
     }
 });

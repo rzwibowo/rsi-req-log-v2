@@ -21,17 +21,23 @@ const main_script = new Vue({
         listUsers: function () {
             axios.get('/api/listUsers')
             .then(res => this.users = res.data.data)
-            .catch(err => console.error(err));
+            .catch(err => {
+                alert("Terjadi masalah: " + err)
+                console.error(err);
+            });
         },
         deleteUser: function (id) {
             const cnf = confirm('Hapus data?');
             if (cnf) {
-                axios.delete('api/deleteUser', { id_user: id })
+                axios.delete('api/deleteUser' + id)
                 .then(() => {
                     alert('Terhapus');
                     this.listUsers();
                 })
-                .catch(err => console.error(err));
+                .catch(err => {
+                    alert("Terjadi masalah: " + err)
+                    console.error(err);
+                });
             }
         },
         toggleForm: function () {
@@ -41,7 +47,10 @@ const main_script = new Vue({
         editUser: function (id) {
             axios.get('api/getUser/' + id)
             .then(res => { this.user = res.data.data[0] })
-            .catch(err => console.error(err));
+            .catch(err => {
+                alert("Terjadi masalah: " + err)
+                console.error(err);
+            });
             this.open = !this.open;
         },
         saveUser: function (id) {
@@ -52,7 +61,10 @@ const main_script = new Vue({
                         this.open = !this.open;
                         this.listUsers();
                     })
-                .catch(err => console.error(err));
+                .catch(err => {
+                    alert("Terjadi masalah: " + err)
+                    console.error(err);
+                });
             } else {
                 axios.post('/api/saveUser', this.user)
                 .then(() => {
@@ -60,7 +72,10 @@ const main_script = new Vue({
                         this.open = !this.open;
                         this.listUsers();
                     })
-                .catch(err => console.error(err));
+                .catch(err => {
+                    alert("Terjadi masalah: " + err)
+                    console.error(err);
+                });
             }
         }
     }
