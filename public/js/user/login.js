@@ -3,7 +3,16 @@ const main_script = new Vue({
     data: {
         user: {}
     },
+    mounted: function () {
+        this.checkAuth();
+    },
     methods: {
+        checkAuth: function () {
+            const userdata = localStorage.getItem('rql_usr');
+            if (userdata) {
+                window.location.assign('/');
+            }
+        },
         login: function () {
             axios.post('/api/login', this.user)
             .then(res => {

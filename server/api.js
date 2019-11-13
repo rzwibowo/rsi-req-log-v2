@@ -450,7 +450,7 @@ router.put('/updateUser', (req, res) => {
     let pwd = "";
     let pwd_par = "";
 
-    if (sent_pwd.trim().length !== 0) {
+    if (sent_pwd) {
         pwd = crypto.createHash('md5').update(req.body.psword).digest("hex");
         pwd_par = `, psword = ${pwd}`;
     }

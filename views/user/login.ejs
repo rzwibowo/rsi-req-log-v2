@@ -13,17 +13,17 @@
 
     <form @submit.prevent="login">
         <div class="columns">
-            <div class="column is-half is-offset-one-quarter">
+            <div class="column is-one-third is-offset-one-third">
                 <div class="field">
                     <label class="label">Username</label>
                     <div class="control">
-                        <input class="input" type="text" v-model="user.username">
+                        <input class="input" type="text" v-model="user.username" required>
                     </div>
                 </div>
                 <div class="field">
                     <label class="label">Password</label>
                     <div class="control">
-                        <input class="input" type="password" v-model="user.psword">
+                        <input class="input" type="password" v-model="user.psword" required>
                     </div>
                 </div>
                 <button class="button is-primary is-pulled-right" type="submit">Login</button>

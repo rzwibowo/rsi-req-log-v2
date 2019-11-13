@@ -11,8 +11,8 @@
     
 <div id="app">
     <div class="columns is-centered">
-        <div class="column is-narrow">
-            <table class="table is-hoverable">
+        <div class="column is-narrow" style="overflow-x: auto;">
+            <table class="table is-hoverable is-fullwidth">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -60,20 +60,20 @@
                             <div class="field">
                                 <label class="label">Username:</label>
                                 <div class="control">
-                                    <input class="input" type="text" name="username" v-model="user.username" style="width: 30em">
+                                    <input class="input" type="text" name="username" v-model="user.username" style="width: 30em" required>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Nama Lengkap:</label>
                                 <div class="control">
-                                    <input class="input" type="text" name="nama" v-model="user.nama_lengkap" style="width: 30em">                                
+                                    <input class="input" type="text" name="nama" v-model="user.nama_lengkap" style="width: 30em" required>                                
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Password:</label>
                                 <div class="control">
                                     <input class="input" type="password" name="password" v-model="user.psword" style="width: 30em"
-                                        :placeholder="user.id_user ? 'Kosongi jika tidak diubah' : ''">                                
+                                        :placeholder="user.id_user ? 'Kosongi jika tidak diubah' : ''" :required="!user.id_user">                                
                                 </div>
                             </div>
                             <div class="field">

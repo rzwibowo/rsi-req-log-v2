@@ -25,7 +25,7 @@
                         <div class="field">
                             <label class="label">Tanggal</label>
                             <div class="control">
-                                <input class="input" type="date" v-model="request.tanggal">
+                                <input class="input" type="date" v-model="request.tanggal" required>
                             </div>
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                         <div class="field">
                             <label class="label">Jam</label>
                             <div class="control">
-                                <input class="input" type="time" step="1" v-model="request.jam">
+                                <input class="input" type="time" step="1" v-model="request.jam" required>
                             </div>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                 <div class="field">
                     <label class="label">Unit</label>
                     <div class="select">
-                        <select v-model="request.id_unit">
+                        <select v-model="request.id_unit" required>
                             <option v-for="(unit, index) in units" :value="unit.id_unit"
                                 :key="index">{{ unit.nama_unit }}</option>
                         </select>
@@ -50,13 +50,15 @@
                 <div class="field">
                     <label class="label">Isi request</label>
                     <div class="control">
-                        <textarea class="textarea" cols="30" rows="5" v-model="request.isi_request"></textarea>
+                        <textarea class="textarea" cols="30" rows="5" 
+                            v-model="request.isi_request" required></textarea>
                     </div>
                 </div>
                 <div class="field">
                     <label class="label">Keterangan</label>
                     <div class="control">
-                        <textarea class="textarea" cols="30" rows="5" v-model="request.keterangan"></textarea>
+                        <textarea class="textarea" cols="30" rows="5" 
+                            v-model="request.keterangan"></textarea>
                     </div>
                 </div>
                 <button class="button" type="button" @click="window.history.back()" 
