@@ -376,10 +376,18 @@ router.post('/login', (req, res) => {
                 console.error(err);
             } else {
                 const data = result;
-                res.status(200).send({
-                    success: 'true',
-                    data: data
-                })
+                
+                if (data.length !== 0) {
+                    res.status(200).send({
+                        success: true,
+                        data: data
+                    })
+                } else {
+                    res.status(403).send({
+                        success: false,
+                        data: 'Tidak ditemukan pengguna'
+                    })
+                } 
             }
         });
 });
