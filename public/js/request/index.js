@@ -53,6 +53,17 @@ const main_script = new Vue({
             .catch(err => console.error(err));
         },
         saveRequest: function () {
+            if (!this.request.jam_selesai) {
+                const waktu_skr = new Date();
+                const jam = waktu_skr.getHours().toString().padStart(2, '0');
+                const menit = waktu_skr.getMinutes().toString().padStart(2, '0');
+                const detik = waktu_skr.getSeconds().toString().padStart(2, '0');
+    
+                const jam_fmt = `${jam}:${menit}:${detik}`;
+
+                this.request.jam_selesai = jam_fmt;
+            }
+
             if (this.request.id_request) {
                 axios.put('/api/updateRequest', this.request)
                 .then(() => {
