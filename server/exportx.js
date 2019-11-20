@@ -22,8 +22,13 @@ const styles = {
 };
 
 const specificationH = {
-    jam: {
-        displayName: 'Jam',
+    jam_lapor: {
+        displayName: 'Jam Lapor',
+        headerStyle: styles.headerGreen,
+        width: '8'
+    },
+    jam_selesai: {
+        displayName: 'Jam Selesai',
         headerStyle: styles.headerGreen,
         width: '8'
     },
@@ -55,8 +60,13 @@ const specificationB = {
         headerStyle: styles.headerGreen,
         width: '7'
     },
-    jam: {
-        displayName: 'Jam',
+    jam_lapor: {
+        displayName: 'Jam Lapor',
+        headerStyle: styles.headerGreen,
+        width: '8'
+    },
+    jam_selesai: {
+        displayName: 'Jam Selesai',
         headerStyle: styles.headerGreen,
         width: '8'
     },
@@ -88,8 +98,13 @@ const specificationT = {
         headerStyle: styles.headerGreen,
         width: '10'
     },
-    jam: {
-        displayName: 'Jam',
+    jam_lapor: {
+        displayName: 'Jam Lapor',
+        headerStyle: styles.headerGreen,
+        width: '8'
+    },
+    jam_selesai: {
+        displayName: 'Jam Selesai',
         headerStyle: styles.headerGreen,
         width: '8'
     },

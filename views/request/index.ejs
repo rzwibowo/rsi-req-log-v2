@@ -20,20 +20,26 @@
                         <input class="input" type="text" v-model="request.id_user" readonly>
                     </div>
                 </div>
+                <div class="field">
+                    <label class="label">Tanggal</label>
+                    <div class="control">
+                        <input class="input" type="date" v-model="request.tanggal" required>
+                    </div>
+                </div>
                 <div class="columns">
                     <div class="column is-half">
                         <div class="field">
-                            <label class="label">Tanggal</label>
+                            <label class="label">Jam Lapor</label>
                             <div class="control">
-                                <input class="input" type="date" v-model="request.tanggal" required>
+                                <input class="input" type="time" step="1" v-model="request.jam_lapor" required>
                             </div>
                         </div>
                     </div>
                     <div class="column is-half">
                         <div class="field">
-                            <label class="label">Jam</label>
+                            <label class="label">Jam Selesai</label>
                             <div class="control">
-                                <input class="input" type="time" step="1" v-model="request.jam" required>
+                                <input class="input" type="time" step="1" v-model="request.jam_selesai" required>
                             </div>
                         </div>
                     </div>

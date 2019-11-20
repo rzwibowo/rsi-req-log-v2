@@ -18,7 +18,8 @@
                     <tr>
                         <th>ID</th>
                         <th>Tanggal</th>
-                        <th>Jam</th>
+                        <th>Jam Lapor</th>
+                        <th>Jam Selesai</th>
                         <th>Unit</th>
                         <th>Isi Request</th>
                         <th>Keterangan</th>
@@ -29,7 +30,8 @@
                     <tr v-for="(req, index) in requests" :key="index">
                         <td>{{ req.id_request }}</td>
                         <td>{{ req.tanggal | fmtTanggal }}</td>
-                        <td>{{ req.jam }}</td>
+                        <td>{{ req.jam_lapor }}</td>
+                        <td>{{ req.jam_selesai }}</td>
                         <td>{{ req.nama_unit }}</td>
                         <td>{{ req.isi_request }}</td>
                         <td>{{ req.keterangan }}</td>

@@ -4,7 +4,8 @@ const main_script = new Vue({
         request: {
             id_user: 0,
             tanggal: "",
-            jam: "",
+            jam_lapor: "",
+            jam_selesai: "",
             id_unit: 0,
             isi_request: "",
             keterangan: ""
@@ -35,7 +36,7 @@ const main_script = new Vue({
             const detik = waktu_skr.getSeconds().toString().padStart(2, '0');
             const jam_fmt = `${jam}:${menit}:${detik}`;
 
-            this.request.jam = jam_fmt;
+            this.request.jam_lapor = jam_fmt;
 
             const split_url = window.location.href.split('-');
             if (split_url.length > 1) {
