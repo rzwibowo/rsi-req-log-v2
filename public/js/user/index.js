@@ -29,7 +29,7 @@ const main_script = new Vue({
         deleteUser: function (id) {
             const cnf = confirm('Hapus data?');
             if (cnf) {
-                axios.delete('api/deleteUser' + id)
+                axios.delete('api/deleteUser/' + id)
                 .then(() => {
                     alert('Terhapus');
                     this.listUsers();

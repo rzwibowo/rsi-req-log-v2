@@ -29,7 +29,7 @@ const main_script = new Vue({
         deleteUnit: function (id) {
             const cnf = confirm('Hapus data?');
             if (cnf) {
-                axios.delete('api/deleteUnit' + id)
+                axios.delete('api/deleteUnit/' + id)
                 .then(() => {
                     alert('Terhapus');
                     this.listUnits();
