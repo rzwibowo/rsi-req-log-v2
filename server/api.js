@@ -465,7 +465,7 @@ router.put('/updateUser', (req, res) => {
 
     connection.query(`UPDATE t_user SET username = ?, nama_lengkap = ?, level = ? ${pwd_par} 
         WHERE id_user = ?`,
-        [req.body.username, req.body.nama_lengkap, req.body.psword, req.body.id_user],
+        [req.body.username, req.body.nama_lengkap, req.body.level, req.body.id_user],
         function (err, result) {
             if (err) {
                 res.status(500).send({
