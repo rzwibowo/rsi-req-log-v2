@@ -53,7 +53,7 @@ const main_script = new Vue({
             });
             this.open = !this.open;
         },
-        saveUser: function (id) {
+        saveUnit: function (id) {
             if (id) {
                 axios.put('/api/updateUnit', this.unit)
                 .then(() => {
