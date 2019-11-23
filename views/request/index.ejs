@@ -67,6 +67,13 @@
                             v-model="request.keterangan"></textarea>
                     </div>
                 </div>
+                <div class="field">
+                    <label class="label">Rencana Tindak Lanjut</label>
+                    <div class="control">
+                        <textarea class="textarea" cols="30" rows="5" 
+                            v-model="request.rencanatl"></textarea>
+                    </div>
+                </div>
                 <button class="button" type="button" @click="window.history.back()" 
                     v-if="request.id_request">Batal</button>
                 <button class="button is-primary is-pulled-right" type="submit">Simpan</button>

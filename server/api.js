@@ -21,7 +21,7 @@ connection.connect(function (err) {
 //#region REQUEST data operation
 router.get('/listRequest', (req, res) => {
     connection.query(`SELECT id_request, tanggal, jam_lapor,
-        jam_selesai, isi_request, keterangan, 
+        jam_selesai, isi_request, keterangan, rencanatl,
         nama_lengkap AS petugas, nama_unit
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
@@ -46,7 +46,7 @@ router.get('/listRequest', (req, res) => {
 
 router.get('/listRequest/:tgl/:idpetugas', (req, res) => {
     connection.query(`SELECT id_request, jam_lapor, jam_selesai, 
-        isi_request, keterangan, nama_unit
+        isi_request, keterangan, rencanatl, nama_unit
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
         LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
@@ -73,7 +73,8 @@ router.get('/listRequest/:tgl/:idpetugas', (req, res) => {
 
 router.get('/getRequest/:idreq', (req, res) => {
     connection.query(`SELECT id_request, tanggal, jam_lapor,
-        jam_selesai, isi_request, keterangan, id_unit, id_user
+        jam_selesai, isi_request, keterangan, rencanatl,
+        id_unit, id_user
         FROM t_request
         WHERE id_request = ?`,
         [req.params.idreq],
@@ -96,10 +97,10 @@ router.get('/getRequest/:idreq', (req, res) => {
 
 router.post('/saveRequest', (req, res) => {
     connection.query(`INSERT INTO t_request (tanggal, jam_lapor, jam_selesai, 
-        id_unit, isi_request, keterangan, id_user) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        id_unit, isi_request, keterangan, rencanatl, id_user) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
         [req.body.tanggal, req.body.jam_lapor, req.body.jam_selesai, req.body.id_unit, 
-            req.body.isi_request, req.body.keterangan, req.body.id_user],
+            req.body.isi_request, req.body.keterangan, req.body.rencanatl, req.body.id_user],
         function (err, result) {
             if (err) {
                 res.status(500).send({
@@ -117,10 +118,10 @@ router.post('/saveRequest', (req, res) => {
 
 router.put('/updateRequest', (req, res) => {
     connection.query(`UPDATE t_request SET tanggal = ?, jam_lapor = ?, jam_selesai = ?, 
-        isi_request = ?, keterangan = ?, id_unit = ? 
+        isi_request = ?, keterangan = ?, rencanatl = ?, id_unit = ? 
         WHERE id_request = ?`,
         [req.body.tanggal, req.body.jam_lapor, req.body.jam_selesai, req.body.isi_request, 
-            req.body.keterangan, req.body.id_unit, req.body.id_request],
+            req.body.keterangan, req.body.rencanatl, req.body.id_unit, req.body.id_request],
         function (err, result) {
             if (err) {
                 res.status(500).send({
@@ -257,13 +258,20 @@ router.delete('/deleteUnit/:idunit', (req, res) => {
 //#endregion UNIT data operation
 
 //#region LAPORAN data operation
-router.get('/lapHarian/:tgl', (req, res) => {
+router.get('/lapHarian/:tgl/:idpetugas', (req, res) => {
+    let petugas_par = "";
+    
+    if (parseInt(req.params.idpetugas) !== 0) {
+        petugas_par = `AND aa.id_user = ${req.params.idpetugas}`;
+    }
+
     connection.query(`SELECT id_request, jam_lapor, jam_selesai, 
-        isi_request, keterangan, nama_lengkap AS petugas, nama_unit
+        isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
         LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
         WHERE tanggal = ?
+        ${petugas_par}
         ORDER BY jam_lapor`,
         [req.params.tgl],
         function (err, result) {
@@ -283,13 +291,20 @@ router.get('/lapHarian/:tgl', (req, res) => {
         });
 });
 
-router.get('/lapBulanan/:bln', (req, res) => {
+router.get('/lapBulanan/:bln/:idpetugas', (req, res) => {
+    let petugas_par = "";
+    
+    if (parseInt(req.params.idpetugas) !== 0) {
+        petugas_par = `AND aa.id_user = ${req.params.idpetugas}`;
+    }
+
     connection.query(`SELECT id_request, tanggal, jam_lapor, jam_selesai, 
-        isi_request, keterangan, nama_lengkap AS petugas, nama_unit
+        isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
         LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
         WHERE tanggal LIKE ?
+        ${petugas_par}
         ORDER BY tanggal, jam_lapor`,
         [req.params.bln + '%'],
         function (err, result) {
@@ -309,7 +324,7 @@ router.get('/lapBulanan/:bln', (req, res) => {
         });
 });
 
-router.get('/lapTriwulan/:thn/:triw', (req, res) => {
+router.get('/lapTriwulan/:thn/:triw/:idpetugas', (req, res) => {
     const tahun = req.params.thn;
     const triwulan = req.params.triw;
 
@@ -334,12 +349,19 @@ router.get('/lapTriwulan/:thn/:triw', (req, res) => {
             break;
     }
 
+    let petugas_par = "";
+    
+    if (parseInt(req.params.idpetugas) !== 0) {
+        petugas_par = `AND aa.id_user = ${req.params.idpetugas}`;
+    }
+
     connection.query(`SELECT id_request, tanggal, jam_lapor, jam_selesai, 
-        isi_request, keterangan, nama_lengkap AS petugas, nama_unit
+        isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
         LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
         WHERE tanggal BETWEEN ? AND ?
+        ${petugas_par}
         ORDER BY tanggal, jam_lapor`,
         [daterangestart, daterangeend],
         function (err, result) {

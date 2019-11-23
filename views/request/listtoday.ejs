@@ -21,7 +21,7 @@
                         <th>Jam Selesai</th>
                         <th>Unit</th>
                         <th style="width: 15em;">Isi Request</th>
-                        <th style="width: 15em;">Keterangan</th>
+                        <th style="width: 15em;">Keterangan dan RTL</th>
                         <th>Opsi</th>
                     </tr>
                 </thead>
@@ -32,7 +32,13 @@
                         <td>{{ req.jam_selesai }}</td>
                         <td>{{ req.nama_unit }}</td>
                         <td>{{ req.isi_request }}</td>
-                        <td>{{ req.keterangan }}</td>
+                        <td>
+                            {{ req.keterangan }}
+                            <br>
+                            <template v-if="req.rencanatl">
+                                <b>RTL:</b> {{ req.rencanatl }}
+                            </template>
+                        </td>
                         <td>
                             <button class="button is-text" @click="editReq(req.id_request)" title="Ubah">
                                 <i class="fas fa-edit"></i>

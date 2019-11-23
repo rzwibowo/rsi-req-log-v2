@@ -6,6 +6,8 @@ const main_script = new Vue({
         namaBulan: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 
         'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des'],
         tahuns: [],
+        petugas: 0,
+        petugases: [],
         requests: []
     },
     filters: {
@@ -16,6 +18,7 @@ const main_script = new Vue({
         }
     },
     mounted: function () {
+        this.listUser();
         this.listTahun();
         this.setDefaultTanggal();
         this.listRequest();
@@ -40,13 +43,20 @@ const main_script = new Vue({
                 const _bln = this.bulan.toString().padStart(2, '0');
                 const fmtBulan = `${this.tahun}-${_bln}`;
     
-                axios.get('/api/lapBulanan/' + fmtBulan)
+                axios.get('/api/lapBulanan/' + fmtBulan + "/" + this.petugas)
                 .then(res => this.requests = res.data.data)
                 .catch(err => {
                     alert("Terjadi masalah: " + err)
                     console.error(err);
                 });
             }
+        },
+        listUser: function () {
+            axios.get('/api/listUsers/')
+            .then(res => this.petugases = res.data.data)
+            .catch(err => {
+                console.error(err);
+            });
         },
         exportExcel: function () {
             axios({

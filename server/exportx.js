@@ -47,6 +47,11 @@ const specificationH = {
         headerStyle: styles.headerGreen,
         width: '50'
     },
+    rencanatl: {
+        displayName: 'Rencana Tindak Lanjut',
+        headerStyle: styles.headerGreen,
+        width: '50'
+    },
     petugas: {
         displayName: 'Petugas',
         headerStyle: styles.headerGreen,
@@ -85,6 +90,11 @@ const specificationB = {
         headerStyle: styles.headerGreen,
         width: '50'
     },
+    rencanatl: {
+        displayName: 'Rencana Tindak Lanjut',
+        headerStyle: styles.headerGreen,
+        width: '50'
+    },
     petugas: {
         displayName: 'Petugas',
         headerStyle: styles.headerGreen,
@@ -120,6 +130,11 @@ const specificationT = {
     },
     keterangan: {
         displayName: 'Keterangan',
+        headerStyle: styles.headerGreen,
+        width: '50'
+    },
+    rencanatl: {
+        displayName: 'Rencana Tindak Lanjut',
         headerStyle: styles.headerGreen,
         width: '50'
     },

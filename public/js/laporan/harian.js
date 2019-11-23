@@ -2,6 +2,8 @@ const main_script = new Vue({
     el: '#app',
     data: {
         tanggal: "",
+        petugas: 0,
+        petugases: [],
         requests: []
     },
     filters: {
@@ -18,6 +20,7 @@ const main_script = new Vue({
         }
     },
     mounted: function () {
+        this.listUser();
         this.setDefaultTanggal();
         this.listRequest();
     },
@@ -33,10 +36,17 @@ const main_script = new Vue({
             this.tanggal = tgl_fmt;
         },
         listRequest: function () {
-            axios.get('/api/lapHarian/' + this.tanggal)
+            axios.get('/api/lapHarian/' + this.tanggal + "/" + this.petugas)
             .then(res => this.requests = res.data.data)
             .catch(err => {
                 alert("Terjadi masalah: " + err)
+                console.error(err);
+            });
+        },
+        listUser: function () {
+            axios.get('/api/listUsers/')
+            .then(res => this.petugases = res.data.data)
+            .catch(err => {
                 console.error(err);
             });
         },

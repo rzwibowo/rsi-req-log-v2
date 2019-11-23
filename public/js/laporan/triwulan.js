@@ -4,9 +4,12 @@ const main_script = new Vue({
         triwulan: "",
         tahun: "",
         tahuns: [],
+        petugas: 0,
+        petugases: [],
         requests: []
     },
     mounted: function () {
+        this.listUser();
         this.listTahun();
         this.setDefaultTanggal();
         this.listRequest();
@@ -31,13 +34,20 @@ const main_script = new Vue({
         },
         listRequest: function () {
             if (this.triwulan && this.tahun) {
-                axios.get('/api/lapTriwulan/' + this.tahun + '/' + this.triwulan)
+                axios.get('/api/lapTriwulan/' + this.tahun + '/' + this.triwulan + "/" + this.petugas)
                     .then(res => this.requests = res.data.data)
                     .catch(err => {
                         alert("Terjadi masalah: " + err)
                         console.error(err);
                     });
             }
+        },
+        listUser: function () {
+            axios.get('/api/listUsers/')
+            .then(res => this.petugases = res.data.data)
+            .catch(err => {
+                console.error(err);
+            });
         },
         exportExcel: function () {
             axios({

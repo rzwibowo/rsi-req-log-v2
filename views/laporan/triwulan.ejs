@@ -12,9 +12,9 @@
     </section>
 
     <div class="columns">
-        <div class="column is-one-quarter is-offset-one-quarter">
+        <div class="column is-one-quarter">
             <div class="field">
-                <label class="label">Pilih triwulan</label>
+                <label class="label">Triwulan</label>
                 <div class="select">
                     <select v-model="triwulan" @change="listRequest">
                         <option v-for="i in 4" :key="i" :value="i">
@@ -29,8 +29,23 @@
                 </div>
             </div>
         </div>
-        <div class="column is-one-quarter" style="margin-top: auto" @click="exportExcel">
-            <button class="button" type="button" :disabled="!(requests.length > 0)">
+        <div class="column is-one-quarter">
+                <div class="field">
+                    <label class="label">Petugas</label>
+                    <div class="control">
+                        <div class="select">
+                            <select v-model="petugas" @change="listRequest">
+                                <option value="0" selected>Semua</option>
+                                <option v-for="(pt, index) in petugases" :key="index" :value="pt.id_user">
+                                    {{ pt.nama_lengkap }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="column" style="margin-top: auto">
+            <button class="button is-pulled-right" type="button"
+                @click="exportExcel" :disabled="!(requests.length > 0)">
                 <span class="icon is-medium">
                     <i class="fas fa-file-download"></i>
                 </span>
@@ -56,7 +71,7 @@
                         <th>Jam Selesai</th>
                         <th>Unit</th>
                         <th style="width: 15em;">Isi Request</th>
-                        <th style="width: 15em;">Keterangan</th>
+                        <th style="width: 15em;">Keterangan dan RTL</th>
                         <th>Petugas</th>
                     </tr>
                 </thead>
@@ -68,7 +83,13 @@
                         <td>{{ req.jam_selesai }}</td>
                         <td>{{ req.nama_unit }}</td>
                         <td>{{ req.isi_request }}</td>
-                        <td>{{ req.keterangan }}</td>
+                        <td>
+                            {{ req.keterangan }}
+                            <br>
+                            <template v-if="req.rencanatl">
+                                <b>RTL:</b> {{ req.rencanatl }}
+                            </template>
+                        </td>
                         <td>{{ req.petugas }}</td>
                     </tr>
                 </tbody>

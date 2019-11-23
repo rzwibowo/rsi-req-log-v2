@@ -8,7 +8,8 @@ const main_script = new Vue({
             jam_selesai: "",
             id_unit: 0,
             isi_request: "",
-            keterangan: ""
+            keterangan: "",
+            rencanatl: ""
         },
         units: []
     },
