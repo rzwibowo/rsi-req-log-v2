@@ -19,14 +19,36 @@ connection.connect(function (err) {
 });
 
 //#region REQUEST data operation
-router.get('/listRequest', (req, res) => {
+router.get('/listRequest/:lim/:ofs', (req, res) => {
     connection.query(`SELECT id_request, tanggal, jam_lapor,
         jam_selesai, isi_request, keterangan, rencanatl,
         nama_lengkap AS petugas, nama_unit
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
         LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
-        ORDER BY tanggal DESC, jam_lapor DESC`,
+        ORDER BY tanggal DESC, jam_lapor DESC
+        LIMIT ? OFFSET ?`,
+        [parseInt(req.params.lim), parseInt(req.params.ofs)],
+        function (err, result) {
+            if (err) {
+                res.status(500).send({
+                    success: false,
+                    errMsg: err.code
+                })
+                console.error(err);
+            } else {
+                const data = result;
+                res.status(200).send({
+                    success: true,
+                    data: data
+                });
+            }
+        });
+});
+
+router.get('/countRequest', (req, res) => {
+    connection.query(`SELECT COUNT(*) AS jml_baris
+        FROM t_request`,
         function (err, result) {
             if (err) {
                 res.status(500).send({

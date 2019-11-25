@@ -8,7 +8,11 @@ const main_script = new Vue({
         tahuns: [],
         petugas: 0,
         petugases: [],
-        requests: []
+        requests: [],
+        awal: 0,
+        akhir: 5,
+        baris: 5,
+        requests_paged: []
     },
     filters: {
         fmtHari: function (tgl) {
@@ -44,7 +48,12 @@ const main_script = new Vue({
                 const fmtBulan = `${this.tahun}-${_bln}`;
     
                 axios.get('/api/lapBulanan/' + fmtBulan + "/" + this.petugas)
-                .then(res => this.requests = res.data.data)
+                .then(res => {
+                    this.requests = res.data.data;
+                    this.awal = 0;
+                    this.akhir = parseInt(this.baris);
+                    this.pageNav();
+                })
                 .catch(err => {
                     alert("Terjadi masalah: " + err)
                     console.error(err);
@@ -57,6 +66,21 @@ const main_script = new Vue({
             .catch(err => {
                 console.error(err);
             });
+        },
+        setBaris: function () {
+            this.awal = 0;
+            this.akhir = parseInt(this.baris);
+            this.pageNav();
+        },
+        pageNav: function (direction) {
+            if (direction === 0) {
+                this.awal -= parseInt(this.baris);
+                this.akhir -= parseInt(this.baris);
+            } else if (direction === 1) {
+                this.awal += parseInt(this.baris);
+                this.akhir += parseInt(this.baris);
+            }
+            this.requests_paged = this.requests.slice(this.awal, this.akhir);
         },
         exportExcel: function () {
             axios({

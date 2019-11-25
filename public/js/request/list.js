@@ -1,7 +1,11 @@
 const main_script = new Vue({
     el: '#app',
     data: {
-        requests: []
+        jml_data: 0,
+        requests: [],
+        awal: 0,
+        akhir: 5,
+        baris: 5
     },
     filters: {
         fmtTanggal: function (tgl) {
@@ -17,16 +21,40 @@ const main_script = new Vue({
         }
     },
     mounted: function () {
-        this.listRequest()
+        this.getRequestRowCount();
+        this.listRequest();
     },
     methods: {
+        getRequestRowCount: function () {
+            axios.get('/api/countRequest')
+            .then(res => this.jml_data = res.data.data[0].jml_baris)
+            .catch(err => {
+                alert("Terjadi masalah: " + err)
+                console.error(err);
+            });
+        },
         listRequest: function () {
-            axios.get('/api/listRequest')
+            axios.get('/api/listRequest/' + this.baris + "/" + this.awal)
             .then(res => this.requests = res.data.data)
             .catch(err => {
                 alert("Terjadi masalah: " + err)
                 console.error(err);
             });
-        }
+        },
+        setBaris: function () {
+            this.awal = 0;
+            this.akhir = parseInt(this.baris);
+            this.pageNav();
+        },
+        pageNav: function (direction) {
+            if (direction === 0) {
+                this.awal -= parseInt(this.baris);
+                this.akhir -= parseInt(this.baris);
+            } else if (direction === 1) {
+                this.awal += parseInt(this.baris);
+                this.akhir += parseInt(this.baris);
+            }
+            this.listRequest();
+        },
     }
 });

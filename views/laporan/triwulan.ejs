@@ -12,7 +12,7 @@
     </section>
 
     <div class="columns">
-        <div class="column is-one-quarter">
+        <div class="column is-narrow">
             <div class="field">
                 <label class="label">Triwulan</label>
                 <div class="select">
@@ -29,20 +29,35 @@
                 </div>
             </div>
         </div>
-        <div class="column is-one-quarter">
-                <div class="field">
-                    <label class="label">Petugas</label>
-                    <div class="control">
-                        <div class="select">
-                            <select v-model="petugas" @change="listRequest">
-                                <option value="0" selected>Semua</option>
-                                <option v-for="(pt, index) in petugases" :key="index" :value="pt.id_user">
-                                    {{ pt.nama_lengkap }}</option>
-                            </select>
-                        </div>
+        <div class="column is-narrow">
+            <div class="field">
+                <label class="label">Petugas</label>
+                <div class="control">
+                    <div class="select">
+                        <select v-model="petugas" @change="listRequest">
+                            <option value="0" selected>Semua</option>
+                            <option v-for="(pt, index) in petugases" :key="index" :value="pt.id_user">
+                                {{ pt.nama_lengkap }}</option>
+                        </select>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="column is-narrow">
+            <div class="field">
+                <label class="label">Tampilkan baris</label>
+                <div class="control">
+                    <div class="select">
+                        <select v-model="baris" @change="setBaris">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option :value="requests.length">Semua [{{requests.length}}]</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="column" style="margin-top: auto">
             <button class="button is-pulled-right" type="button"
                 @click="exportExcel" :disabled="!(requests.length > 0)">
@@ -75,9 +90,36 @@
                         <th>Petugas</th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <td colspan="6"></td>
+                        <td>
+                            Data ke 
+                            <b>{{ awal + 1 }} - {{ akhir >= requests.length ? requests.length : akhir }}</b>
+                            dari 
+                            <b>{{ requests.length }}</b> data
+                        </td>
+                        <td>
+                            <button type="button" class="button" 
+                                :disabled="awal === 0"
+                                @click="pageNav(0)">
+                                <span class="icon is-medium">
+                                    <i class="fas fa-angle-left"></i>
+                                </span>
+                            </button>
+                            <button type="button" class="button"
+                                :disabled="akhir >= requests.length"
+                                @click="pageNav(1)">
+                                <span class="icon is-medium">
+                                    <i class="fas fa-angle-right"></i>
+                                </span>
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
                 <tbody>
-                    <tr v-for="(req, index) in requests" :key="index">
-                        <td>{{ index + 1 }}.</td>
+                    <tr v-for="(req, index) in requests_paged" :key="index">
+                        <td>{{ index + 1 + awal }}.</td>
                         <td>{{ req.tanggal }}</td>
                         <td>{{ req.jam_lapor }}</td>
                         <td>{{ req.jam_selesai }}</td>
