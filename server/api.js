@@ -545,4 +545,31 @@ router.delete('/deleteUser/:iduser', (req, res) => {
 });
 //#endregion USER data operation
 
+//#region CHART data operation
+router.get('/top3Petugas/:bln', (req, res) => {
+    connection.query(`SELECT COUNT(*) AS kontribusi, nama_lengkap
+    FROM t_request aa
+    LEFT JOIN t_user bb ON aa.id_user = bb.id_user
+    WHERE tanggal LIKE ?
+    GROUP BY aa.id_user
+    LIMIT 3;`,
+    [req.params.bln + '%'],
+    function (err, result) {
+        if (err) {
+            res.status(500).send({
+                success: false,
+                errMsg: err.code
+            })
+            console.error(err);
+        } else {
+            const data = result;
+            res.status(200).send({
+                success: 'true',
+                data: data
+            })
+        }
+    });
+});
+//#endregion CHART data operation
+
 module.exports = router;
