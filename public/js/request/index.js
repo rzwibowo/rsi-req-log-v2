@@ -11,7 +11,8 @@ const main_script = new Vue({
             keterangan: "",
             rencanatl: ""
         },
-        units: []
+        units: [],
+        is_loading: false
     },
     mounted: function() {
         this.setDefault();
@@ -54,6 +55,8 @@ const main_script = new Vue({
             .catch(err => console.error(err));
         },
         saveRequest: function () {
+            this.is_loading = true;
+
             if (!this.request.jam_selesai) {
                 const waktu_skr = new Date();
                 const jam = waktu_skr.getHours().toString().padStart(2, '0');
@@ -74,7 +77,8 @@ const main_script = new Vue({
                 .catch(err => {
                     alert("Terjadi masalah: " + err)
                     console.error(err);
-                });
+                })
+                .finally(() => this.is_loading = false);
             } else {
                 axios.post('/api/saveRequest', this.request)
                 .then(() => {
@@ -85,7 +89,8 @@ const main_script = new Vue({
                 .catch(err => {
                     alert("Terjadi masalah: " + err)
                     console.error(err);
-                });
+                })
+                .finally(() => this.is_loading = false);
             }
         }
     }

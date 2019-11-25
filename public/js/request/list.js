@@ -5,7 +5,8 @@ const main_script = new Vue({
         requests: [],
         awal: 0,
         akhir: 5,
-        baris: 5
+        baris: 5,
+        is_loading: true
     },
     filters: {
         fmtTanggal: function (tgl) {
@@ -34,12 +35,15 @@ const main_script = new Vue({
             });
         },
         listRequest: function () {
+            this.is_loading = true;
+
             axios.get('/api/listRequest/' + this.baris + "/" + this.awal)
             .then(res => this.requests = res.data.data)
             .catch(err => {
                 alert("Terjadi masalah: " + err)
                 console.error(err);
-            });
+            })
+            .finally(() => this.is_loading = false);
         },
         setBaris: function () {
             this.awal = 0;

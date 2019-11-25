@@ -12,7 +12,8 @@ const main_script = new Vue({
         awal: 0,
         akhir: 5,
         baris: 5,
-        requests_paged: []
+        requests_paged: [],
+        is_loading: true
     },
     filters: {
         fmtHari: function (tgl) {
@@ -43,6 +44,8 @@ const main_script = new Vue({
             }
         },
         listRequest: function () {
+            this.is_loading = true;
+
             if (this.bulan && this.tahun) {
                 const _bln = this.bulan.toString().padStart(2, '0');
                 const fmtBulan = `${this.tahun}-${_bln}`;
@@ -57,7 +60,8 @@ const main_script = new Vue({
                 .catch(err => {
                     alert("Terjadi masalah: " + err)
                     console.error(err);
-                });
+                })
+                .finally(() => this.is_loading = false);
             }
         },
         listUser: function () {

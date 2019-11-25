@@ -10,7 +10,8 @@ const main_script = new Vue({
         awal: 0,
         akhir: 5,
         baris: 5,
-        requests_paged: []
+        requests_paged: [],
+        is_loading: true
     },
     mounted: function () {
         this.listUser();
@@ -37,18 +38,21 @@ const main_script = new Vue({
             }
         },
         listRequest: function () {
+            this.is_loading = true;
+
             if (this.triwulan && this.tahun) {
                 axios.get('/api/lapTriwulan/' + this.tahun + '/' + this.triwulan + "/" + this.petugas)
-                    .then(res => {
-                        this.requests = res.data.data;
-                        this.awal = 0;
-                        this.akhir = parseInt(this.baris);
-                        this.pageNav();
-                    })
-                    .catch(err => {
-                        alert("Terjadi masalah: " + err)
-                        console.error(err);
-                    });
+                .then(res => {
+                    this.requests = res.data.data;
+                    this.awal = 0;
+                    this.akhir = parseInt(this.baris);
+                    this.pageNav();
+                })
+                .catch(err => {
+                    alert("Terjadi masalah: " + err)
+                    console.error(err);
+                })
+                .finally(() => this.is_loading = false);
             }
         },
         listUser: function () {
