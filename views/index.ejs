@@ -2,14 +2,59 @@
 
 <div id="app">
     <div class="columns">
-        <div class="column is-centered">
-            <canvas id="chart-top-petugas" 
-                width="640" height="120"></canvas>
+        <div class="column is-centered is-half is-offset-one-quarter">
+            <canvas id="chart-top-petugas"></canvas>
+        </div>
+    </div>
+
+    <section class="hero is-light">
+        <div class="hero-body">
+            <div class="container is-centered">
+                <h1 class="title" style="text-align: center;">
+                    Menu
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <div class="columns">
+        <div class="column">
+            <a class="button is-large is-primary is-fullwidth"
+                href="request/">
+                <span class="icon is-large">
+                    <i class="fas fa-pencil-alt"></i>
+                </span>
+                <span>Input Request</span>
+            </a>
+        </div>
+        <div class="column">
+            <a class="button is-large is-fullwidth"
+                href="laporan/harian">
+                <span class="icon is-large">
+                    <i class="fas fa-scroll"></i>
+                </span>
+                <span>Laporan Harian</span>
+            </a>
+            <a class="button is-large is-fullwidth"
+                href="laporan/bulanan">
+                <span class="icon is-large">
+                    <i class="fas fa-scroll"></i>
+                </span>
+                <span>Laporan Bulanan</span>
+            </a>
+            <a class="button is-large is-fullwidth"
+                href="laporan/triwulan">
+                <span class="icon is-large">
+                    <i class="fas fa-scroll"></i>
+                </span>
+                <span>Laporan Triwulan</span>
+            </a>
         </div>
     </div>
 </div>
 
 <script src="/js/axios.min.js"></script>
 <script src="/js/Chart.min.js"></script>
+<script src="/js/home/index.js"></script>
 
 <% include _layout/footer %>

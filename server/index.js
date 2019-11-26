@@ -38,5 +38,5 @@ app.use('/user', userRoute);
 app.use('/user', express.static(__dirname + '/../public'));
 
 app.get('/', (req, res) => {
-    res.redirect('request');
+    res.render(__dirname + '/../views/index');
 });
