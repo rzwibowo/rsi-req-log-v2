@@ -44,15 +44,15 @@ const main_script = new Vue({
                         datasets: [{
                             label: `Kontribusi Bulan ${this.bulan} ${this.tahun}`,
                             data: kontrib,
-                            backgroundColor: 'rgba(54,73,93,.5)',
-                            borderColor: '#36495d',
-                            borderWidth: 3
+                            backgroundColor: 'rgba(71, 183,132,.5)',
+                            borderColor: '#47b784',
+                            borderWidth: 1
                         }]
                     },
                     options: {
                         responsive: true,
                         scales: {
-                            yAxes: [{
+                            xAxes: [{
                                 ticks: {
                                     beginAtZero: true,
                                     padding: 25,
