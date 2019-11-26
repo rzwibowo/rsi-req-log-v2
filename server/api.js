@@ -66,7 +66,8 @@ router.get('/countRequest', (req, res) => {
         });
 });
 
-router.get('/listRequest/:tgl/:idpetugas', (req, res) => {
+router.get('/listRequestPtg/:tgl/:idpetugas', (req, res) => {
+    console.log("a" + req.params.tgl, req.params.idpetugas)
     connection.query(`SELECT id_request, jam_lapor, jam_selesai, 
         isi_request, keterangan, rencanatl, nama_unit
         FROM t_request aa

@@ -38,7 +38,7 @@ const main_script = new Vue({
             this.petugas = JSON.parse(localStorage.getItem('rql_usr')).nama_lengkap;
         },
         listRequest: function () {
-            axios.get('/api/listRequest/' + this.tanggal + '/' + this.petugas_id)
+            axios.get('/api/listRequestPtg/' + this.tanggal + '/' + this.petugas_id)
             .then(res => this.requests = res.data.data)
             .catch(err => {
                 alert("Terjadi masalah: " + err)

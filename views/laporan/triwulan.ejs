@@ -76,8 +76,9 @@
     </div>
 
     <div class="columns is-centered is-multiline">
-        <div class="column is-narrow table-container" style="overflow-x: auto;">
-            <table class="table is-fullwidth is-striped" v-if="requests.length > 0">
+        <div class="column is-narrow table-container"
+            v-if="requests.length > 0">
+            <table class="table is-fullwidth is-striped">
                 <thead>
                     <tr>
                         <th>No.</th>
@@ -90,33 +91,6 @@
                         <th>Petugas</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <td colspan="6"></td>
-                        <td>
-                            Data ke 
-                            <b>{{ awal + 1 }} - {{ akhir >= requests.length ? requests.length : akhir }}</b>
-                            dari 
-                            <b>{{ requests.length }}</b> data
-                        </td>
-                        <td>
-                            <button type="button" class="button" 
-                                :disabled="awal === 0"
-                                @click="pageNav(0)">
-                                <span class="icon is-medium">
-                                    <i class="fas fa-angle-left"></i>
-                                </span>
-                            </button>
-                            <button type="button" class="button"
-                                :disabled="akhir >= requests.length"
-                                @click="pageNav(1)">
-                                <span class="icon is-medium">
-                                    <i class="fas fa-angle-right"></i>
-                                </span>
-                            </button>
-                        </td>
-                    </tr>
-                </tfoot>
                 <tbody>
                     <template v-if="is_loading">
                         <tr>
@@ -146,9 +120,37 @@
                     </template>
                 </tbody>
             </table>
-            <div class="notification is-warning" v-else>
-                Tidak Ditemukan Data ...
+        </div>
+        <div class="column" v-if="requests.length > 0">
+            <div class="columns">
+                <div class="column is-3 is-offset-7">
+                    <p class="is-pulled-right">
+                        Data ke 
+                        <b>{{ awal + 1 }} - {{ akhir >= requests.length ? requests.length : akhir }}</b>
+                        dari 
+                        <b>{{ requests.length }}</b> data
+                    </p>
+                </div>
+                <div class="column is-narrow" style="text-align: right;">
+                    <button type="button" class="button" 
+                        :disabled="awal === 0"
+                        @click="pageNav(0)">
+                        <span class="icon is-medium">
+                            <i class="fas fa-angle-left"></i>
+                        </span>
+                    </button>
+                    <button type="button" class="button"
+                        :disabled="akhir >= requests.length"
+                        @click="pageNav(1)">
+                        <span class="icon is-medium">
+                            <i class="fas fa-angle-right"></i>
+                        </span>
+                    </button>
+                </div>
             </div>
+        </div>
+        <div class="notification is-warning" v-else>
+            Tidak Ditemukan Data ...
         </div>
     </div>
 </div>
