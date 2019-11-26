@@ -552,7 +552,7 @@ router.get('/top3Petugas/:bln', (req, res) => {
     LEFT JOIN t_user bb ON aa.id_user = bb.id_user
     WHERE tanggal LIKE ?
     GROUP BY aa.id_user
-    LIMIT 3;`,
+    ORDER BY kontribusi DESC`,
     [req.params.bln + '%'],
     function (err, result) {
         if (err) {

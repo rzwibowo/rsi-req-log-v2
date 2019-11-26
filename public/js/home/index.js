@@ -48,6 +48,17 @@ const main_script = new Vue({
                             borderColor: '#36495d',
                             borderWidth: 3
                         }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    padding: 25,
+                                }
+                            }]
+                        }
                     }
                 })
             }
