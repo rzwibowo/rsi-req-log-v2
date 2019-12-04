@@ -72,10 +72,10 @@ router.get('/listRequestPtg/:tgl/:idpetugas', (req, res) => {
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
         LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
-        WHERE tanggal = ?
+        WHERE created_at LIKE ?
         AND aa.id_user = ?
         ORDER BY jam_lapor DESC`,
-        [req.params.tgl, req.params.idpetugas],
+        [req.params.tgl + '%', req.params.idpetugas],
         function (err, result) {
             if (err) {
                 res.status(500).send({
