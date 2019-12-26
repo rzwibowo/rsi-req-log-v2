@@ -9,9 +9,11 @@ const main_script = new Vue({
             id_unit: 0,
             isi_request: "",
             keterangan: "",
-            rencanatl: ""
+            rencanatl: "",
+            filename: ""
         },
         units: [],
+        file: '',
         is_loading: false
     },
     mounted: function() {
@@ -54,7 +56,10 @@ const main_script = new Vue({
             .then(res => this.units = res.data.data.sort((a, b) => (a.nama_unit > b.nama_unit) ? 1 : -1))
             .catch(err => console.error(err));
         },
-        saveRequest: function () {
+        handleUp: function () {
+            this.file = this.$refs.img_up.files[0];
+        },
+        saveRequest: async function () {
             this.is_loading = true;
 
             if (!this.request.jam_selesai) {
@@ -66,6 +71,20 @@ const main_script = new Vue({
                 const jam_fmt = `${jam}:${menit}:${detik}`;
 
                 this.request.jam_selesai = jam_fmt;
+            }
+
+            if (this.file !== '') {
+                let formData = new FormData();
+                formData.append('image', this.file);
+
+                await axios.post('/api/saveRequestImage', formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(res => this.request.filename = res.data.data)
+                .catch(err => console.error(err));
             }
 
             if (this.request.id_request) {

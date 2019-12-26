@@ -4,6 +4,10 @@ const router = express.Router();
 const mysql = require('mysql');
 const crypto = require('crypto');
 
+const path = require('path');
+const upload = require('./uploadMW');
+const resizer = require('./resize');
+
 require('dotenv').config();
 
 const connection = mysql.createConnection({
@@ -117,12 +121,29 @@ router.get('/getRequest/:idreq', (req, res) => {
         });
 });
 
+router.post('/saveRequestImage', upload.single('image'), async (req, res) => {
+    const imgThumbPath = path.join(__dirname, '../public/img-up/thumb');
+    const fileUpload = new resizer(imgThumbPath);
+    let filename = null;
+
+    if (req.file) {
+        filename = await fileUpload.save(req.file);
+        
+        res.status(200).send({
+            success: 'true',
+            data: filename
+        })
+    }
+
+})
+
 router.post('/saveRequest', (req, res) => {
     connection.query(`INSERT INTO t_request (tanggal, jam_lapor, jam_selesai, 
-        id_unit, isi_request, keterangan, rencanatl, id_user) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        id_unit, isi_request, keterangan, rencanatl, img_name, id_user) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [req.body.tanggal, req.body.jam_lapor, req.body.jam_selesai, req.body.id_unit, 
-            req.body.isi_request, req.body.keterangan, req.body.rencanatl, req.body.id_user],
+            req.body.isi_request, req.body.keterangan, req.body.rencanatl, 
+            req.body.filename, req.body.id_user],
         function (err, result) {
             if (err) {
                 res.status(500).send({

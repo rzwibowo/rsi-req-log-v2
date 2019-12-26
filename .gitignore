@@ -9,3 +9,7 @@ node_modules/
 
 # Credential
 .env
+
+# Upload images
+public/img-up/*
+public/img-up/thumb/*
