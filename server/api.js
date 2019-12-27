@@ -143,7 +143,7 @@ router.post('/saveRequest', (req, res) => {
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [req.body.tanggal, req.body.jam_lapor, req.body.jam_selesai, req.body.id_unit, 
             req.body.isi_request, req.body.keterangan, req.body.rencanatl, 
-            req.body.filename, req.body.id_user],
+            req.body.img_name, req.body.id_user],
         function (err, result) {
             if (err) {
                 res.status(500).send({
