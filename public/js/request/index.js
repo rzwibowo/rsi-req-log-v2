@@ -10,10 +10,11 @@ const main_script = new Vue({
             isi_request: "",
             keterangan: "",
             rencanatl: "",
-            filename: ""
+            img_name: ""
         },
         units: [],
         file: '',
+        imgSrc: 'https://bulma.io/images/placeholders/640x360.png',
         is_loading: false
     },
     mounted: function() {
@@ -42,6 +43,8 @@ const main_script = new Vue({
 
             this.request.jam_lapor = jam_fmt;
 
+            this.clearImg();
+
             const split_url = window.location.href.split('-');
             if (split_url.length > 1) {
                 const req_id = split_url[1];
@@ -58,6 +61,18 @@ const main_script = new Vue({
         },
         handleUp: function () {
             this.file = this.$refs.img_up.files[0];
+
+            if (this.file !== '') {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    this.imgSrc = reader.result;
+                }
+                reader.readAsDataURL(this.file);
+            }
+        },
+        clearImg: function () {
+            this.file = '';
+            this.imgSrc = 'https://bulma.io/images/placeholders/640x360.png';
         },
         saveRequest: async function () {
             this.is_loading = true;
@@ -83,7 +98,7 @@ const main_script = new Vue({
                         'Content-Type': 'multipart/form-data'
                     }
                 })
-                .then(res => this.request.filename = res.data.data)
+                .then(res => this.request.img_name = res.data.data)
                 .catch(err => console.error(err));
             }
 

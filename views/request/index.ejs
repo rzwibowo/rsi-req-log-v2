@@ -75,22 +75,37 @@
                             v-model="request.rencanatl"></textarea>
                     </div>
                 </div>
-                <div class="field file has-name is-fullwidth">
-                    <label class="file-label">
-                        <input class="file-input" type="file" ref="img_up"
-                            @change="handleUp">
-                        <span class="file-cta">
-                            <span class="file-icon">
-                                <i class="fas fa-upload"></i>
+                <div class="columns">
+                    <div class="column is-10">
+                        <div class="field file has-name is-fullwidth">
+                            <label class="file-label">
+                                <input class="file-input" type="file" ref="img_up" @change="handleUp">
+                                <span class="file-cta">
+                                    <span class="file-icon">
+                                        <i class="fas fa-upload"></i>
+                                    </span>
+                                    <span class="file-label">
+                                        Unggah gambar…
+                                    </span>
+                                </span>
+                                <span class="file-name">
+                                    {{ file.name }}
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="column is-2">
+                        <button class="button" @click="clearImg" title="hapus gambar">
+                            <span class="icon is-small">
+                                <i class="fas fa-times"></i>
                             </span>
-                            <span class="file-label">
-                                Unggah gambar…
-                            </span>
-                        </span>
-                        <span class="file-name">
-                            {{ file.name }}
-                        </span>
-                    </label>
+                        </button>
+                    </div>
+                </div>
+                <div class="field">
+                    <figure class="image">
+                        <img :src="imgSrc">
+                    </figure>
                 </div>
                 <button class="button" type="button" @click="window.history.back()"
                     v-if="request.id_request">Batal</button>
