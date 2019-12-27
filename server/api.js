@@ -25,7 +25,7 @@ connection.connect(function (err) {
 //#region REQUEST data operation
 router.get('/listRequest/:lim/:ofs', (req, res) => {
     connection.query(`SELECT id_request, tanggal, jam_lapor,
-        jam_selesai, isi_request, keterangan, rencanatl,
+        jam_selesai, isi_request, keterangan, rencanatl, img_name,
         nama_lengkap AS petugas, nama_unit
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
@@ -72,7 +72,7 @@ router.get('/countRequest', (req, res) => {
 
 router.get('/listRequestPtg/:tgl/:idpetugas', (req, res) => {
     connection.query(`SELECT id_request, jam_lapor, jam_selesai, 
-        isi_request, keterangan, rencanatl, nama_unit
+        isi_request, keterangan, rencanatl, nama_unit, img_name
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
         LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
@@ -99,7 +99,7 @@ router.get('/listRequestPtg/:tgl/:idpetugas', (req, res) => {
 
 router.get('/getRequest/:idreq', (req, res) => {
     connection.query(`SELECT id_request, tanggal, jam_lapor,
-        jam_selesai, isi_request, keterangan, rencanatl,
+        jam_selesai, isi_request, keterangan, rencanatl, img_name,
         id_unit, id_user
         FROM t_request
         WHERE id_request = ?`,
@@ -308,7 +308,7 @@ router.get('/lapHarian/:tgl/:idpetugas', (req, res) => {
         petugas_par = `AND aa.id_user = ${req.params.idpetugas}`;
     }
 
-    connection.query(`SELECT id_request, jam_lapor, jam_selesai, 
+    connection.query(`SELECT id_request, jam_lapor, jam_selesai, img_name,
         isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
@@ -341,7 +341,7 @@ router.get('/lapBulanan/:bln/:idpetugas', (req, res) => {
         petugas_par = `AND aa.id_user = ${req.params.idpetugas}`;
     }
 
-    connection.query(`SELECT id_request, tanggal, jam_lapor, jam_selesai, 
+    connection.query(`SELECT id_request, tanggal, jam_lapor, jam_selesai, img_name,
         isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
@@ -398,7 +398,7 @@ router.get('/lapTriwulan/:thn/:triw/:idpetugas', (req, res) => {
         petugas_par = `AND aa.id_user = ${req.params.idpetugas}`;
     }
 
-    connection.query(`SELECT id_request, tanggal, jam_lapor, jam_selesai, 
+    connection.query(`SELECT id_request, tanggal, jam_lapor, jam_selesai, img_name,
         isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user

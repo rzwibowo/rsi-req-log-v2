@@ -114,6 +114,13 @@
                                 <template v-if="req.rencanatl">
                                     <b>RTL:</b> {{ req.rencanatl }}
                                 </template>
+                                <br>
+                                <a :href="'/img-up/'+req.img_name" 
+                                    v-if="req.img_name" target="_blank">
+                                    <figure class="image is-128x128">
+                                        <img :src="'/img-up/thumb/'+req.img_name">
+                                    </figure>
+                                </a>
                             </td>
                             <td>{{ req.petugas }}</td>
                         </tr>
