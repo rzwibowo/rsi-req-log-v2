@@ -30,6 +30,7 @@ CREATE TABLE `t_request` (
   `isi_request` varchar(500) NOT NULL,
   `keterangan` varchar(500) DEFAULT NULL,
   `rencanatl` varchar(500) DEFAULT NULL,
+  `img_name` varchar(100) DEFAULT NULL,
   `id_user` int(11) NOT NULL,
   `id_unit` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -38,7 +39,7 @@ CREATE TABLE `t_request` (
   KEY `t_request_fk_1` (`id_unit`),
   CONSTRAINT `t_request_fk` FOREIGN KEY (`id_user`) REFERENCES `t_user` (`id_user`),
   CONSTRAINT `t_request_fk_1` FOREIGN KEY (`id_unit`) REFERENCES `t_unit` (`id_unit`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +72,7 @@ CREATE TABLE `t_user` (
   `level` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `t_user_un` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,4 +88,4 @@ CREATE TABLE `t_user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-23 10:46:51
+-- Dump completed on 2019-12-27 10:57:43
