@@ -8,6 +8,8 @@ const path = require('path');
 const upload = require('./uploadMW');
 const resizer = require('./resize');
 
+const delimg = require('./deleteIMG');
+
 require('dotenv').config();
 
 const connection = mysql.createConnection({
@@ -161,10 +163,11 @@ router.post('/saveRequest', (req, res) => {
 
 router.put('/updateRequest', (req, res) => {
     connection.query(`UPDATE t_request SET tanggal = ?, jam_lapor = ?, jam_selesai = ?, 
-        isi_request = ?, keterangan = ?, rencanatl = ?, id_unit = ? 
+        isi_request = ?, keterangan = ?, rencanatl = ?, img_name = ?, id_unit = ? 
         WHERE id_request = ?`,
         [req.body.tanggal, req.body.jam_lapor, req.body.jam_selesai, req.body.isi_request, 
-            req.body.keterangan, req.body.rencanatl, req.body.id_unit, req.body.id_request],
+            req.body.keterangan, req.body.rencanatl, req.body.img_name, req.body.id_unit, 
+            req.body.id_request],
         function (err, result) {
             if (err) {
                 res.status(500).send({
@@ -173,6 +176,9 @@ router.put('/updateRequest', (req, res) => {
                 })
                 console.error(err);
             } else {
+                if (req.body.img_name === null) {
+                    delimg(req.body.old_img);
+                }
                 res.status(200).send({
                     success: 'true'
                 })
@@ -195,6 +201,28 @@ router.delete('/deleteRequest/:idreq', (req, res) => {
                 res.status(200).send({
                     success: 'true'
                 })
+            }
+        });
+});
+
+router.delete('/deleteRequest/:idreq/:old_img', (req, res) => {
+    console.log(req.body)
+    connection.query("DELETE FROM t_request WHERE id_request = ?",
+        [req.params.idreq],
+        function (err, result) {
+            if (err) {
+                res.status(500).send({
+                    success: false,
+                    errMsg: err.code
+                })
+                console.error(err);
+            } else {
+                res.status(200).send({
+                    success: 'true'
+                })
+                if (req.params.old_img) {
+                    delimg(req.params.old_img);
+                }
             }
         });
 });

@@ -106,6 +106,8 @@
                     <figure class="image">
                         <img :src="imgSrc">
                     </figure>
+                    <button class="button" type="button" @click="setImageNull"
+                        v-if="request.id_request">Hapus gambar sekarang</button>
                 </div>
                 <button class="button" type="button" @click="window.history.back()"
                     v-if="request.id_request">Batal</button>

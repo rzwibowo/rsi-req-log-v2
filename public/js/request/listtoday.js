@@ -48,10 +48,14 @@ const main_script = new Vue({
         editReq: function (id) {
             window.location.assign('/request/id-' + id);
         },
-        deleteReq: function (id) {
+        deleteReq: function (id, imgname) {
             const cnf = confirm('Hapus data?');
             if (cnf) {
-                axios.delete('/api/deleteRequest/' + id)
+                let deletePars = id;
+                if (imgname) {
+                    deletePars += '/' + imgname;
+                }
+                axios.delete('/api/deleteRequest/' + deletePars)
                 .then(() => {
                     alert('Terhapus');
                     this.listRequest();

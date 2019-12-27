@@ -10,7 +10,8 @@ const main_script = new Vue({
             isi_request: "",
             keterangan: "",
             rencanatl: "",
-            img_name: ""
+            img_name: "",
+            old_img: ""
         },
         units: [],
         file: '',
@@ -50,7 +51,15 @@ const main_script = new Vue({
                 const req_id = split_url[1];
 
                 axios.get('/api/getRequest/' + req_id)
-                .then(res => this.request = res.data.data[0])
+                .then(res => {
+                    this.request = res.data.data[0];
+                    if (this.request.img_name){
+                        this.imgSrc = '/img-up/' + this.request.img_name;
+                        this.request.old_img = this.request.img_name;
+                    } else {
+                        this.setImageNull();
+                    }
+                })
                 .catch(err => console.error(err));
             }
         },
@@ -73,6 +82,10 @@ const main_script = new Vue({
         clearImg: function () {
             this.file = '';
             this.imgSrc = 'https://bulma.io/images/placeholders/640x360.png';
+        },
+        setImageNull: function () {
+            this.request.img_name = null;
+            this.clearImg();
         },
         saveRequest: async function () {
             this.is_loading = true;
