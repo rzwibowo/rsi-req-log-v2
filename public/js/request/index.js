@@ -1,6 +1,7 @@
 const main_script = new Vue({
     el: '#app',
     data: {
+        max_tgl: '',
         request: {
             id_user: 0,
             tanggal: "",
@@ -36,6 +37,7 @@ const main_script = new Vue({
             const tgl_fmt = `${tahun}-${bulan}-${tgl}`;
 
             this.request.tanggal = tgl_fmt;
+            this.max_tgl = tgl_fmt;
 
             const jam = waktu_skr.getHours().toString().padStart(2, '0');
             const menit = waktu_skr.getMinutes().toString().padStart(2, '0');

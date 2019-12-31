@@ -23,7 +23,8 @@
                 <div class="field">
                     <label class="label">Tanggal</label>
                     <div class="control">
-                        <input class="input" type="date" v-model="request.tanggal" required>
+                        <input class="input" type="date" v-model="request.tanggal" 
+                            :max="max_tgl" required>
                     </div>
                 </div>
                 <div class="columns">
