@@ -23,40 +23,45 @@ if %opsi%==3 goto stopserver
 if %opsi%==v goto cekversi
 if %opsi%==x exit
 
-:startserver 
-    npm run start-prod
+:startserver (
+    call npm run start-prod
     echo Server started
     goto end
+)
 
-:showserver 
-    forever list
-    echo Ketik uid untuk menghentikan proses
+:showserver (
+    call forever list
+    echo Ketik index server untuk menghentikan proses
+    echo misal: 0
     echo Ketik b untuk kembali ke menu
     set /p "uid= Ketik pilihan: "
-    if %uid%==b
-        goto :start
-    else
-        forever stop %uid%
+    if %uid%==b ( goto :start ) else (
+        call forever stop %uid%
         echo Server %uid% Stopped
         goto end
+    )
+)
 
-:stopserver
-    forever stopall
+:stopserver (
+    call forever stopall
     echo All Server Stopped
     goto end
+)
 
-:cekversi
+:cekversi (
     echo Versi nodejs
     node -v
     echo Versi npm
-    npm --version
+    call npm --version
     echo Versi forever
-    forever --version
+    call forever --version
     goto end
+)
 
-:end
+:end (
     echo -
     echo Tekan Enter untuk memilih menu lain
     echo -
     pause
     goto start
+)
