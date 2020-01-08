@@ -2,8 +2,10 @@ const sharp = require('sharp');
 const path = require('path');
 
 class Resize {
-    constructor(folder) {
+    constructor(folder, dimension) {
         this.folder = folder;
+        this.width = dimension.width;
+        this.height = dimension.height;
     }
 
     async save(img) {
@@ -11,7 +13,7 @@ class Resize {
         const filepath = this.filepath(filename);
 
         await sharp(img.path)
-        .resize(128, 128, {
+        .resize(this.width, this.height, {
             fit: sharp.fit.inside,
             withoutEnlargement: true
         })

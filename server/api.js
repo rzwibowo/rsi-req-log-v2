@@ -5,6 +5,7 @@ const mysql = require('mysql');
 const crypto = require('crypto');
 
 const path = require('path');
+const fs = require('fs');
 const upload = require('./uploadMW');
 const resizer = require('./resize');
 
@@ -125,15 +126,26 @@ router.get('/getRequest/:idreq', (req, res) => {
 
 router.post('/saveRequestImage', upload.single('image'), async (req, res) => {
     const imgThumbPath = path.join(__dirname, '../public/img-up/thumb');
-    const fileUpload = new resizer(imgThumbPath);
+    const imgPath = path.join(__dirname, '../public/img-up');
+    const thumbUpload = new resizer(imgThumbPath, { width: 128, height: 128 });
+    const mainUpload = new resizer(imgPath, { width: 1500, height: 1500 });
     let filename = null;
+    let filenameMain = null
 
     if (req.file) {
-        filename = await fileUpload.save(req.file);
+        filename = await thumbUpload.save(req.file);
+        filenameMain = await mainUpload.save(req.file);
         
+        if (filename === filenameMain) {
+            fs.unlink(imgPath + '/tmp/' + filename, err => {
+                if (err) throw err;
+                console.log('deleted temp');
+            });
+        }
+
         res.status(200).send({
             success: 'true',
-            data: filename
+            data: filenameMain
         })
     }
 

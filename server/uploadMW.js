@@ -4,7 +4,7 @@ const uuidv4 =  require('uuid/v4');
 
 
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, '../public/img-up'),
+    destination: path.join(__dirname, '../public/img-up/tmp'),
     filename: (req, file, cb) => {
         const filename = uuidv4();
         let filetype;
