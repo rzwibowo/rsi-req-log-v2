@@ -5,12 +5,17 @@
                 <p>
                     <img src="/img/rsi-min.png" alt="Logo RSI kecil" style="vertical-align: bottom;">
                     |
-                    &copy; 2019
+                    &copy; 2019 - <span id="current-year"></span>
                     <strong>request-log</strong> 
                     made with ❤ by <a href="https://github.com/rzwibowo">Wibowo Devs</a>.
                 </p>
             </div>
         </div>
     </footer>
+    <script>
+        const yrEl = document.getElementById('current-year');
+        const currYr = new Date().getFullYear();
+        yrEl.textContent = currYr;
+    </script>
 </body>
 </html>
