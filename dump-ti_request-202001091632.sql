@@ -52,6 +52,7 @@ DROP TABLE IF EXISTS `t_unit`;
 CREATE TABLE `t_unit` (
   `id_unit` int(11) NOT NULL AUTO_INCREMENT,
   `nama_unit` varchar(100) NOT NULL,
+  `is_aktif` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_unit`),
   UNIQUE KEY `t_unit_un` (`nama_unit`)
 ) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=latin1;
@@ -70,6 +71,7 @@ CREATE TABLE `t_user` (
   `psword` varchar(50) NOT NULL,
   `nama_lengkap` varchar(100) NOT NULL,
   `level` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `is_aktif` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `t_user_un` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -88,4 +90,4 @@ CREATE TABLE `t_user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-27 10:57:43
+-- Dump completed on 2020-01-09 16:32:22

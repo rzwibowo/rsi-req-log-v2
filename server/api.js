@@ -243,7 +243,8 @@ router.delete('/deleteRequest/:idreq/:old_img', (req, res) => {
 //#region UNIT data operation
 router.get('/listUnit', (req, res) => {
     connection.query(`SELECT id_unit, nama_unit
-        FROM t_unit`,
+        FROM t_unit
+        WHERE is_aktif = 1`,
         function (err, result) {
             if (err) {
                 res.status(500).send({
@@ -322,8 +323,8 @@ router.put('/updateUnit', (req, res) => {
 });
 
 router.delete('/deleteUnit/:idunit', (req, res) => {
-    connection.query("DELETE FROM t_unit WHERE id_unit = ?",
-        [req.params.id_unit],
+    connection.query("UPDATE t_unit SET is_aktif = 0 WHERE id_unit = ?",
+        [req.params.idunit],
         function (err, result) {
             if (err) {
                 res.status(500).send({
@@ -588,7 +589,7 @@ router.put('/updateUser', (req, res) => {
 });
 
 router.delete('/deleteUser/:iduser', (req, res) => {
-    connection.query("DELETE FROM t_user WHERE id_user = ?",
+    connection.query("UPDATE t_user SET is_aktif = 0 WHERE id_user = ?",
         [req.params.iduser],
         function (err, result) {
             if (err) {
