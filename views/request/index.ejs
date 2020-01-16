@@ -24,7 +24,7 @@
                     <label class="label">Tanggal</label>
                     <div class="control">
                         <input class="input" type="date" v-model="request.tanggal" 
-                            :max="max_tgl" required>
+                            :min="batas_tgl" :max="batas_tgl" readonly required>
                     </div>
                 </div>
                 <div class="columns">
