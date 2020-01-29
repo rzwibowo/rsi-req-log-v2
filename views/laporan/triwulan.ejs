@@ -110,14 +110,14 @@
                             <td>{{ req.isi_request }}</td>
                             <td>
                                 {{ req.keterangan }}
-                                <br>
+                                <br v-if="req.rencanatl && req.keterangan">
                                 <template v-if="req.rencanatl">
                                     <b>RTL:</b> {{ req.rencanatl }}
                                 </template>
-                                <br>
+                                <br v-if="req.img_name && (req.keterangan || req.rencanatl)">
                                 <a :href="'/img-up/'+req.img_name" 
                                     v-if="req.img_name" target="_blank">
-                                    <figure class="image is-128x128" style="overflow: hidden">
+                                    <figure class="image thumb" style="overflow: hidden">
                                         <img :src="'/img-up/thumb/'+req.img_name">
                                     </figure>
                                 </a>
