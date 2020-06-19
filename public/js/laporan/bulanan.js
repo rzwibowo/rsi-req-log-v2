@@ -87,10 +87,16 @@ const main_script = new Vue({
             this.requests_paged = this.requests.slice(this.awal, this.akhir);
         },
         exportExcel: function () {
+            const _bln = this.bulan.toString().padStart(2, '0');
+            const fmtBulan = `${this.tahun}-${_bln}`;
+
             axios({
                 method: 'post',
                 url: '/exportx/xlbulanan',
-                data: this.requests,
+                data: {
+                    bulan: fmtBulan,
+                    petugas: this.petugas
+                },
                 responseType: 'blob'
             })
             .then(res => saveAs(new Blob([res.data]), `laporan-bulanan-${this.tahun}-${this.bulan}.xlsx`))

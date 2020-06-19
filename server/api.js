@@ -8,6 +8,7 @@ const path = require('path');
 const fs = require('fs');
 const upload = require('./uploadMW');
 const resizer = require('./resize');
+const laporan = require('./laporan_fetch');
 
 const delimg = require('./deleteIMG');
 
@@ -135,7 +136,7 @@ router.post('/saveRequestImage', upload.single('image'), async (req, res) => {
     if (req.file) {
         filename = await thumbUpload.save(req.file);
         filenameMain = await mainUpload.save(req.file);
-        
+
         if (filename === filenameMain) {
             fs.unlink(imgPath + '/tmp/' + filename, err => {
                 if (err) throw err;
@@ -155,9 +156,9 @@ router.post('/saveRequest', (req, res) => {
     connection.query(`INSERT INTO t_request (tanggal, jam_lapor, jam_selesai, 
         id_unit, isi_request, keterangan, rencanatl, img_name, id_user) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [req.body.tanggal, req.body.jam_lapor, req.body.jam_selesai, req.body.id_unit, 
-            req.body.isi_request, req.body.keterangan, req.body.rencanatl, 
-            req.body.img_name, req.body.id_user],
+        [req.body.tanggal, req.body.jam_lapor, req.body.jam_selesai, req.body.id_unit,
+        req.body.isi_request, req.body.keterangan, req.body.rencanatl,
+        req.body.img_name, req.body.id_user],
         function (err, result) {
             if (err) {
                 res.status(500).send({
@@ -177,9 +178,9 @@ router.put('/updateRequest', (req, res) => {
     connection.query(`UPDATE t_request SET tanggal = ?, jam_lapor = ?, jam_selesai = ?, 
         isi_request = ?, keterangan = ?, rencanatl = ?, img_name = ?, id_unit = ? 
         WHERE id_request = ?`,
-        [req.body.tanggal, req.body.jam_lapor, req.body.jam_selesai, req.body.isi_request, 
-            req.body.keterangan, req.body.rencanatl, req.body.img_name, req.body.id_unit, 
-            req.body.id_request],
+        [req.body.tanggal, req.body.jam_lapor, req.body.jam_selesai, req.body.isi_request,
+        req.body.keterangan, req.body.rencanatl, req.body.img_name, req.body.id_unit,
+        req.body.id_request],
         function (err, result) {
             if (err) {
                 res.status(500).send({
@@ -343,126 +344,60 @@ router.delete('/deleteUnit/:idunit', (req, res) => {
 
 //#region LAPORAN data operation
 router.get('/lapHarian/:tgl/:idpetugas', (req, res) => {
-    let petugas_par = "";
-    
-    if (parseInt(req.params.idpetugas) !== 0) {
-        petugas_par = `AND aa.id_user = ${req.params.idpetugas}`;
-    }
-
-    connection.query(`SELECT id_request, jam_lapor, jam_selesai, img_name,
-        isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit
-        FROM t_request aa
-        LEFT JOIN t_user bb ON aa.id_user = bb.id_user
-        LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
-        WHERE tanggal = ?
-        ${petugas_par}
-        ORDER BY jam_lapor`,
-        [req.params.tgl],
-        function (err, result) {
-            if (err) {
-                res.status(500).send({
-                    success: false,
-                    errMsg: err.code
-                })
-                console.error(err);
-            } else {
-                const data = result;
-                res.status(200).send({
-                    success: 'true',
-                    data: data
-                })
-            }
-        });
+    const lap = new laporan()
+    const lap_harian = lap.bulanan(req.params.tgl,
+        req.params.idpetugas)
+    lap_harian.then(result => {
+        const data = result;
+        res.status(200).send({
+            success: true,
+            data: data.body
+        })
+    }).catch(err => {
+        res.status(500).send({
+            success: false,
+            errMsg: err.body.code
+        })
+        console.error(err);
+    })
 });
 
 router.get('/lapBulanan/:bln/:idpetugas', (req, res) => {
-    let petugas_par = "";
-    
-    if (parseInt(req.params.idpetugas) !== 0) {
-        petugas_par = `AND aa.id_user = ${req.params.idpetugas}`;
-    }
-
-    connection.query(`SELECT id_request, tanggal, jam_lapor, jam_selesai, img_name,
-        isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit
-        FROM t_request aa
-        LEFT JOIN t_user bb ON aa.id_user = bb.id_user
-        LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
-        WHERE tanggal LIKE ?
-        ${petugas_par}
-        ORDER BY tanggal, jam_lapor`,
-        [req.params.bln + '%'],
-        function (err, result) {
-            if (err) {
-                res.status(500).send({
-                    success: false,
-                    errMsg: err.code
-                })
-                console.error(err);
-            } else {
-                const data = result;
-                res.status(200).send({
-                    success: 'true',
-                    data: data
-                })
-            }
-        });
+    const lap = new laporan()
+    const lap_bulanan = lap.bulanan(req.params.bln,
+        req.params.idpetugas)
+    lap_bulanan.then(result => {
+        const data = result;
+        res.status(200).send({
+            success: true,
+            data: data.body
+        })
+    }).catch(err => {
+        res.status(500).send({
+            success: false,
+            errMsg: err.body.code
+        })
+        console.error(err);
+    })
 });
 
 router.get('/lapTriwulan/:thn/:triw/:idpetugas', (req, res) => {
-    const tahun = req.params.thn;
-    const triwulan = req.params.triw;
-
-    let daterangestart = "";
-    let daterangeend = "";
-    switch (triwulan) {
-        case "1":
-            daterangestart = `${tahun}-01-01`;
-            daterangeend = `${tahun}-03-31`;
-            break;
-        case "2":
-            daterangestart = `${tahun}-04-01`;
-            daterangeend = `${tahun}-06-30`;
-            break;
-        case "3":
-            daterangestart = `${tahun}-07-01`;
-            daterangeend = `${tahun}-09-30`;
-            break;
-        case "4":
-            daterangestart = `${tahun}-10-01`;
-            daterangeend = `${tahun}-12-31`;
-            break;
-    }
-
-    let petugas_par = "";
-    
-    if (parseInt(req.params.idpetugas) !== 0) {
-        petugas_par = `AND aa.id_user = ${req.params.idpetugas}`;
-    }
-
-    connection.query(`SELECT id_request, tanggal, jam_lapor, jam_selesai, img_name,
-        isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit
-        FROM t_request aa
-        LEFT JOIN t_user bb ON aa.id_user = bb.id_user
-        LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
-        WHERE tanggal BETWEEN ? AND ?
-        ${petugas_par}
-        ORDER BY tanggal, jam_lapor`,
-        [daterangestart, daterangeend],
-        function (err, result) {
-            if (err) {
-                res.status(500).send({
-                    success: false,
-                    errMsg: err.code
-                })
-                console.error(err);
-            } else {
-                const data = result;
-                res.status(200).send({
-                    success: 'true',
-                    data: data
-                })
-            }
-        });
+    const lap = new laporan()
+    const lap_triwulan = lap.triwulan(req.params.thn,
+        req.params.triw, req.params.idpetugas)
+    lap_triwulan.then(result => {
+        const data = result;
+        res.status(200).send({
+            success: true,
+            data: data.body
+        })
+    }).catch(err => {
+        res.status(500).send({
+            success: false,
+            errMsg: err.body.code
+        })
+        console.error(err);
+    })
 });
 //#endregion LAPORAN data operation
 
@@ -483,7 +418,7 @@ router.post('/login', (req, res) => {
                 console.error(err);
             } else {
                 const data = result;
-                
+
                 if (data.length !== 0) {
                     res.status(200).send({
                         success: true,
@@ -494,7 +429,7 @@ router.post('/login', (req, res) => {
                         success: false,
                         data: 'Tidak ditemukan pengguna'
                     })
-                } 
+                }
             }
         });
 });
@@ -615,22 +550,22 @@ router.get('/top3Petugas/:bln', (req, res) => {
     WHERE tanggal LIKE ?
     GROUP BY aa.id_user
     ORDER BY kontribusi DESC`,
-    [req.params.bln + '%'],
-    function (err, result) {
-        if (err) {
-            res.status(500).send({
-                success: false,
-                errMsg: err.code
-            })
-            console.error(err);
-        } else {
-            const data = result;
-            res.status(200).send({
-                success: 'true',
-                data: data
-            })
-        }
-    });
+        [req.params.bln + '%'],
+        function (err, result) {
+            if (err) {
+                res.status(500).send({
+                    success: false,
+                    errMsg: err.code
+                })
+                console.error(err);
+            } else {
+                const data = result;
+                res.status(200).send({
+                    success: 'true',
+                    data: data
+                })
+            }
+        });
 });
 //#endregion CHART data operation
 

@@ -1,6 +1,6 @@
 {
   "name": "request-log",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "Pencatat request harian",
   "main": "server/index.js",
   "scripts": {

@@ -54,7 +54,10 @@ const main_script = new Vue({
             axios({
                 method: 'post',
                 url: '/exportx/xlharian',
-                data: this.requests,
+                data: {
+                   tanggal: this.tanggal,
+                   petugas: this.petugas 
+                },
                 responseType: 'blob'
             })
             .then(res => saveAs(new Blob([res.data]), `laporan-harian-${this.tanggal}.xlsx`))
