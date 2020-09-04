@@ -406,7 +406,7 @@ router.post('/login', (req, res) => {
     const pwd = crypto.createHash('md5').update(req.body.psword).digest("hex");
     connection.query(`SELECT id_user, username, nama_lengkap, level
         FROM t_user
-        WHERE username = ? AND psword = ?
+        WHERE username = ? AND psword = ? AND is_aktif = 1
         LIMIT 1`,
         [req.body.username, pwd],
         function (err, result) {
