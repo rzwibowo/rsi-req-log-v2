@@ -502,7 +502,7 @@ router.put('/updateUser', (req, res) => {
 
     if (sent_pwd) {
         pwd = crypto.createHash('md5').update(req.body.psword).digest("hex");
-        pwd_par = `, psword = ${pwd}`;
+        pwd_par = `, psword = '${pwd}'`;
     }
 
     connection.query(`UPDATE t_user SET username = ?, nama_lengkap = ?, level = ? ${pwd_par} 
