@@ -30,10 +30,11 @@ connection.connect(function (err) {
 router.get('/listRequest/:lim/:ofs', (req, res) => {
     connection.query(`SELECT id_request, tanggal, jam_lapor,
         jam_selesai, isi_request, keterangan, rencanatl, img_name,
-        nama_lengkap AS petugas, nama_unit
+        nama_lengkap AS petugas, nama_unit, nama_kategori
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
         LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
+        LEFT JOIN t_kategori dd ON aa.id_kategori = dd.id_kategori
         ORDER BY tanggal DESC, jam_lapor DESC
         LIMIT ? OFFSET ?`,
         [parseInt(req.params.lim), parseInt(req.params.ofs)],
@@ -76,10 +77,12 @@ router.get('/countRequest', (req, res) => {
 
 router.get('/listRequestPtg/:tgl/:idpetugas', (req, res) => {
     connection.query(`SELECT id_request, jam_lapor, jam_selesai, 
-        isi_request, keterangan, rencanatl, nama_unit, img_name
+        isi_request, keterangan, rencanatl, nama_unit, img_name,
+        nama_kategori
         FROM t_request aa
         LEFT JOIN t_user bb ON aa.id_user = bb.id_user
         LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
+        LEFT JOIN t_kategori dd ON aa.id_kategori = dd.id_kategori
         WHERE created_at LIKE ?
         AND aa.id_user = ?
         ORDER BY jam_lapor DESC`,
@@ -104,7 +107,7 @@ router.get('/listRequestPtg/:tgl/:idpetugas', (req, res) => {
 router.get('/getRequest/:idreq', (req, res) => {
     connection.query(`SELECT id_request, tanggal, jam_lapor,
         jam_selesai, isi_request, keterangan, rencanatl, img_name,
-        id_unit, id_user
+        id_unit, id_user, id_kategori
         FROM t_request
         WHERE id_request = ?`,
         [req.params.idreq],
@@ -154,11 +157,11 @@ router.post('/saveRequestImage', upload.single('image'), async (req, res) => {
 
 router.post('/saveRequest', (req, res) => {
     connection.query(`INSERT INTO t_request (tanggal, jam_lapor, jam_selesai, 
-        id_unit, isi_request, keterangan, rencanatl, img_name, id_user) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        id_unit, isi_request, keterangan, rencanatl, img_name, id_user, id_kategori) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [req.body.tanggal, req.body.jam_lapor, req.body.jam_selesai, req.body.id_unit,
         req.body.isi_request, req.body.keterangan, req.body.rencanatl,
-        req.body.img_name, req.body.id_user],
+        req.body.img_name, req.body.id_user, req.body.id_kategori],
         function (err, result) {
             if (err) {
                 res.status(500).send({
@@ -176,10 +179,12 @@ router.post('/saveRequest', (req, res) => {
 
 router.put('/updateRequest', (req, res) => {
     connection.query(`UPDATE t_request SET tanggal = ?, jam_lapor = ?, jam_selesai = ?, 
-        isi_request = ?, keterangan = ?, rencanatl = ?, img_name = ?, id_unit = ? 
+        isi_request = ?, keterangan = ?, rencanatl = ?, img_name = ?, id_unit = ?,
+        id_kategori = ? 
         WHERE id_request = ?`,
         [req.body.tanggal, req.body.jam_lapor, req.body.jam_selesai, req.body.isi_request,
         req.body.keterangan, req.body.rencanatl, req.body.img_name, req.body.id_unit,
+        req.body.id_kategori,
         req.body.id_request],
         function (err, result) {
             if (err) {
@@ -341,6 +346,107 @@ router.delete('/deleteUnit/:idunit', (req, res) => {
         });
 });
 //#endregion UNIT data operation
+
+//#region KATEGORI data operation
+router.get('/listKategori', (req, res) => {
+    connection.query(`SELECT id_kategori, nama_kategori
+        FROM t_kategori
+        WHERE is_aktif = 1`,
+        function (err, result) {
+            if (err) {
+                res.status(500).send({
+                    success: false,
+                    errMsg: err.code
+                })
+                console.error(err);
+            } else {
+                const data = result;
+                res.status(200).send({
+                    success: 'true',
+                    data: data
+                })
+            }
+        });
+});
+
+router.get('/getKategori/:kategori_id', (req, res) => {
+    connection.query(`SELECT id_kategori, nama_kategori
+        FROM t_kategori
+        WHERE id_kategori = ?`,
+        [req.params.kategori_id],
+        function (err, result) {
+            if (err) {
+                res.status(500).send({
+                    success: false,
+                    errMsg: err.code
+                })
+                console.error(err);
+            } else {
+                const data = result;
+                res.status(200).send({
+                    success: 'true',
+                    data: data
+                })
+            }
+        });
+});
+
+router.post('/saveKategori', (req, res) => {
+    connection.query(`INSERT INTO t_kategori (nama_kategori) 
+        VALUES (?)`,
+        [req.body.nama_kategori],
+        function (err, result) {
+            if (err) {
+                res.status(500).send({
+                    success: false,
+                    errMsg: err.code
+                })
+                console.error(err);
+            } else {
+                res.status(200).send({
+                    success: 'true'
+                })
+            }
+        });
+});
+
+router.put('/updateKategori', (req, res) => {
+    connection.query(`UPDATE t_kategori SET nama_kategori = ? 
+        WHERE id_kategori = ?`,
+        [req.body.nama_kategori, req.body.id_kategori],
+        function (err, result) {
+            if (err) {
+                res.status(500).send({
+                    success: false,
+                    errMsg: err.code
+                })
+                console.error(err);
+            } else {
+                res.status(200).send({
+                    success: 'true'
+                })
+            }
+        });
+});
+
+router.delete('/deleteKategori/:idkategori', (req, res) => {
+    connection.query("UPDATE t_kategori SET is_aktif = 0 WHERE id_kategori = ?",
+        [req.params.idkategori],
+        function (err, result) {
+            if (err) {
+                res.status(500).send({
+                    success: false,
+                    errMsg: err.code
+                })
+                console.error(err);
+            } else {
+                res.status(200).send({
+                    success: 'true'
+                })
+            }
+        });
+});
+//#endregion KATEGORI data operation
 
 //#region LAPORAN data operation
 router.get('/lapHarian/:tgl/:idpetugas', (req, res) => {

@@ -34,7 +34,12 @@ const specificationH = {
         width: '8'
     },
     nama_unit: {
-        displayName: 'Nama Unit',
+        displayName: 'Unit',
+        headerStyle: styles.headerGreen,
+        width: '30'
+    },
+    nama_kategori: {
+        displayName: 'Kategori',
         headerStyle: styles.headerGreen,
         width: '30'
     },
@@ -77,7 +82,12 @@ const specificationB = {
         width: '8'
     },
     nama_unit: {
-        displayName: 'Nama Unit',
+        displayName: 'Unit',
+        headerStyle: styles.headerGreen,
+        width: '30'
+    },
+    nama_kategori: {
+        displayName: 'Kategori',
         headerStyle: styles.headerGreen,
         width: '30'
     },
@@ -120,7 +130,12 @@ const specificationT = {
         width: '8'
     },
     nama_unit: {
-        displayName: 'Nama Unit',
+        displayName: 'Unit',
+        headerStyle: styles.headerGreen,
+        width: '30'
+    },
+    nama_kategori: {
+        displayName: 'Kategori',
         headerStyle: styles.headerGreen,
         width: '30'
     },
