@@ -44,6 +44,10 @@ const unitRoute = require(__dirname + '/../views/unit/route.js');
 app.use('/unit', unitRoute);
 app.use('/unit', express.static(__dirname + '/../public'));
 
+const kategoriRoute = require(__dirname + '/../views/kategori/route.js');
+app.use('/kategori', kategoriRoute);
+app.use('/kategori', express.static(__dirname + '/../public'));
+
 const userRoute = require(__dirname + '/../views/user/route.js');
 app.use('/user', userRoute);
 app.use('/user', express.static(__dirname + '/../public'));

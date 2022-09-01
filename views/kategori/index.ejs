@@ -1,0 +1,79 @@
+<% include ../_layout/header %>
+<section class="hero is-light">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Daftar Kategori
+            </h1>
+        </div>
+    </div>
+</section>
+    
+<div id="app">
+    <div class="columns is-centered">
+        <div class="column is-narrow">
+            <table class="table is-hoverable is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama Kategori</th>
+                        <th>Opsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(kategori, index) of kategoris" :key="index">
+                        <td>{{ kategori.id_kategori }}</td>
+                        <td>{{ kategori.nama_kategori }}</td>
+                        <td>
+                            <button class="button is-text" @click="editKategori(kategori.id_kategori)" title="Ubah">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="button is-text has-text-danger" @click="deleteKategori(kategori.id_kategori)" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="field is-grouped is-grouped-right">
+                <div class="control">
+                    <button @click="toggleForm" class="button is-primary">
+                        <span class="icon is-small"> <i class="fas fa-plus"></i> </span>
+                        <span> Tambah Kategori </span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal" :class="{ 'is-active': open }">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">{{ headerModal }} Kategori</p>
+                        <button class="delete" aria-label="close" @click="toggleForm"></button>
+                    </header>
+                    <section class="modal-card-body">
+                        <form>
+                            <div class="field">
+                                <label class="label">Nama Kategori:</label>
+                                <div class="control">
+                                    <input class="input" type="text" name="nama" 
+                                        v-model="kategori.nama_kategori" style="width: 30em"
+                                        required>                                
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                    <footer class="modal-card-foot" style="justify-content: flex-end">
+                        <button class="button" @click="toggleForm">Batal</button>
+                        <button class="button is-primary" type="submit" @click="saveKategori(kategori.id_kategori)">Simpan</button>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/axios.min.js"></script>
+<script src="/js/kategori/index.js"></script>
+
+<% include ../_layout/footer %>

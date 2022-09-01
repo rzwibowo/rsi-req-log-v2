@@ -23,10 +23,11 @@ class Laporan {
 
         return new Promise((resolve, reject) => {
             this.connection.query(`SELECT id_request, jam_lapor, jam_selesai, img_name,
-            isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit
+            isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit, nama_kategori
             FROM t_request aa
             LEFT JOIN t_user bb ON aa.id_user = bb.id_user
             LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
+            LEFT JOIN t_kategori dd ON aa.id_kategori = dd.id_kategori
             WHERE tanggal = ?
             ${petugas_par}
             ORDER BY jam_lapor`,
@@ -55,10 +56,11 @@ class Laporan {
 
         return new Promise((resolve, reject) => {
             this.connection.query(`SELECT id_request, tanggal, jam_lapor, jam_selesai, img_name,
-                isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit
+                isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit, nama_kategori
                 FROM t_request aa
                 LEFT JOIN t_user bb ON aa.id_user = bb.id_user
                 LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
+                LEFT JOIN t_kategori dd ON aa.id_kategori = dd.id_kategori
                 WHERE tanggal LIKE ?
                 ${petugas_par}
                 ORDER BY tanggal, jam_lapor`,
@@ -109,10 +111,11 @@ class Laporan {
 
         return new Promise((resolve, reject) => {
             this.connection.query(`SELECT id_request, tanggal, jam_lapor, jam_selesai, img_name,
-            isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit
+            isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit, nama_kategori
             FROM t_request aa
             LEFT JOIN t_user bb ON aa.id_user = bb.id_user
             LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
+            LEFT JOIN t_kategori dd ON aa.id_kategori = dd.id_kategori
             WHERE tanggal BETWEEN ? AND ?
             ${petugas_par}
             ORDER BY tanggal, jam_lapor`,

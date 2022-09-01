@@ -8,6 +8,7 @@ const main_script = new Vue({
             jam_lapor: "",
             jam_selesai: "",
             id_unit: 0,
+            id_kategori: 0,
             isi_request: "",
             keterangan: "",
             rencanatl: "",
@@ -15,6 +16,7 @@ const main_script = new Vue({
             old_img: ""
         },
         units: [],
+        kategoris: [],
         file: '',
         imgSrc: 'https://bulma.io/images/placeholders/640x360.png',
         is_loading: false
@@ -22,6 +24,7 @@ const main_script = new Vue({
     mounted: function() {
         this.setDefault();
         this.listUnit();
+        this.listKategori();
     },
     methods: {
         setDefault: function () {
@@ -68,6 +71,11 @@ const main_script = new Vue({
         listUnit: function () {
             axios.get('/api/listUnit')
             .then(res => this.units = res.data.data.sort((a, b) => (a.nama_unit > b.nama_unit) ? 1 : -1))
+            .catch(err => console.error(err));
+        },
+        listKategori: function () {
+            axios.get('/api/listKategori')
+            .then(res => this.kategoris = res.data.data.sort((a, b) => (a.nama_kategori > b.nama_kategori) ? 1 : -1))
             .catch(err => console.error(err));
         },
         handleUp: function () {
