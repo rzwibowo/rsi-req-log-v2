@@ -3,8 +3,8 @@ const main_script = new Vue({
     data: {
         bulan: "",
         tahun: "",
-        namaBulan: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 
-        'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des'],
+        namaBulan: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+            'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des'],
         tahuns: [],
         petugas: 0,
         petugases: [],
@@ -29,7 +29,7 @@ const main_script = new Vue({
         this.listRequest();
     },
     methods: {
-        setDefaultTanggal: function () {   
+        setDefaultTanggal: function () {
             const waktu_skr = new Date();
 
             this.bulan = waktu_skr.getMonth() + 1;
@@ -49,27 +49,27 @@ const main_script = new Vue({
             if (this.bulan && this.tahun) {
                 const _bln = this.bulan.toString().padStart(2, '0');
                 const fmtBulan = `${this.tahun}-${_bln}`;
-    
+
                 axios.get('/api/lapBulanan/' + fmtBulan + "/" + this.petugas)
-                .then(res => {
-                    this.requests = res.data.data;
-                    this.awal = 0;
-                    this.akhir = parseInt(this.baris);
-                    this.pageNav();
-                })
-                .catch(err => {
-                    alert("Terjadi masalah: " + err)
-                    console.error(err);
-                })
-                .finally(() => this.is_loading = false);
+                    .then(res => {
+                        this.requests = res.data.data;
+                        this.awal = 0;
+                        this.akhir = parseInt(this.baris);
+                        this.pageNav();
+                    })
+                    .catch(err => {
+                        alert("Terjadi masalah: " + err)
+                        console.error(err);
+                    })
+                    .finally(() => this.is_loading = false);
             }
         },
         listUser: function () {
             axios.get('/api/listUsers/')
-            .then(res => this.petugases = res.data.data)
-            .catch(err => {
-                console.error(err);
-            });
+                .then(res => this.petugases = res.data.data)
+                .catch(err => {
+                    console.error(err);
+                });
         },
         setBaris: function () {
             this.awal = 0;
@@ -99,11 +99,30 @@ const main_script = new Vue({
                 },
                 responseType: 'blob'
             })
-            .then(res => saveAs(new Blob([res.data]), `laporan-bulanan-${this.tahun}-${this.bulan}.xlsx`))
-            .catch(err => {
-                alert("Terjadi masalah: " + err)
-                console.error(err);
-            });
+                .then(res => saveAs(new Blob([res.data]), `laporan-bulanan-${this.tahun}-${this.bulan}.xlsx`))
+                .catch(err => {
+                    alert("Terjadi masalah: " + err)
+                    console.error(err);
+                });
+        },
+        exportPdf: function () {
+            const _bln = this.bulan.toString().padStart(2, '0');
+            const fmtBulan = `${this.tahun}-${_bln}`;
+            
+            axios({
+                method: 'post',
+                url: '/exportp/pdfbulanan',
+                data: {
+                    bulan: fmtBulan,
+                    petugas: this.petugas
+                },
+                responseType: 'blob'
+            })
+                .then(res => saveAs(new Blob([res.data]), `laporan-bulanan-${this.tahun}-${this.bulan}.pdf`))
+                .catch(err => {
+                    alert("Terjadi masalah: " + err)
+                    console.error(err);
+                });
         }
     }
 });

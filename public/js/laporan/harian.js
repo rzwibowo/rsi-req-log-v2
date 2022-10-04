@@ -65,6 +65,22 @@ const main_script = new Vue({
                 alert("Terjadi masalah: " + err)
                 console.error(err);
             });
+        },
+        exportPdf: function () {
+            axios({
+                method: 'post',
+                url: '/exportp/pdfharian',
+                data: {
+                   tanggal: this.tanggal,
+                   petugas: this.petugas 
+                },
+                responseType: 'blob'
+            })
+            .then(res => saveAs(new Blob([res.data]), `laporan-harian-${this.tanggal}.pdf`))
+            .catch(err => {
+                alert("Terjadi masalah: " + err)
+                console.error(err);
+            });
         }
     }
 });

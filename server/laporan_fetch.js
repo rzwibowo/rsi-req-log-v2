@@ -22,8 +22,9 @@ class Laporan {
         }
 
         return new Promise((resolve, reject) => {
-            this.connection.query(`SELECT id_request, jam_lapor, jam_selesai, img_name,
-            isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit, nama_kategori
+            this.connection.query(`SELECT id_request, tanggal, jam_lapor, jam_selesai, IFNULL(img_name, '') AS img_name,
+            isi_request, IFNULL(keterangan, '') AS keterangan, IFNULL(rencanatl, '') AS rencanatl, nama_lengkap AS petugas, 
+            nama_unit, nama_kategori
             FROM t_request aa
             LEFT JOIN t_user bb ON aa.id_user = bb.id_user
             LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
@@ -55,8 +56,8 @@ class Laporan {
         }
 
         return new Promise((resolve, reject) => {
-            this.connection.query(`SELECT id_request, tanggal, jam_lapor, jam_selesai, img_name,
-                isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit, nama_kategori
+            this.connection.query(`SELECT id_request, tanggal, jam_lapor, jam_selesai, IFNULL(img_name, '') AS img_name,
+            isi_request, IFNULL(keterangan, '') AS keterangan, IFNULL(rencanatl, '') AS rencanatl, nama_lengkap AS petugas, nama_unit, nama_kategori
                 FROM t_request aa
                 LEFT JOIN t_user bb ON aa.id_user = bb.id_user
                 LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
@@ -110,8 +111,8 @@ class Laporan {
         }
 
         return new Promise((resolve, reject) => {
-            this.connection.query(`SELECT id_request, tanggal, jam_lapor, jam_selesai, img_name,
-            isi_request, keterangan, rencanatl, nama_lengkap AS petugas, nama_unit, nama_kategori
+            this.connection.query(`SELECT id_request, tanggal, jam_lapor, jam_selesai, IFNULL(img_name, '') AS img_name,
+            isi_request, IFNULL(keterangan, '') AS keterangan, IFNULL(rencanatl, '') AS rencanatl, nama_lengkap AS petugas, nama_unit, nama_kategori
             FROM t_request aa
             LEFT JOIN t_user bb ON aa.id_user = bb.id_user
             LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit

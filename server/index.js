@@ -32,6 +32,9 @@ app.use('/api', apiRoute);
 const exportxRoute = require('./exportx.js');
 app.use('/exportx', exportxRoute);
 
+const exportpRoute = require('./exportp.js');
+app.use('/exportp', exportpRoute);
+
 const requestRoute = require(__dirname + '/../views/request/route.js');
 app.use('/request', requestRoute);
 app.use('/request', express.static(__dirname + '/../public'));

@@ -93,6 +93,23 @@ const main_script = new Vue({
                 alert("Terjadi masalah: " + err)
                 console.error(err);
             });
+        },
+        exportPdf: function () {
+            axios({
+                method: 'post',
+                url: '/exportp/pdftriwulan',
+                data: {
+                    tahun: this.tahun,
+                    triwulan: this.triwulan,
+                    petugas: this.petugas
+                },
+                responseType: 'blob'
+            })
+            .then(res => saveAs(new Blob([res.data]), `laporan-triwulan-${this.tahun}-${this.triwulan}.pdf`))
+            .catch(err => {
+                alert("Terjadi masalah: " + err)
+                console.error(err);
+            });
         }
     }
 });

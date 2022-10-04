@@ -67,6 +67,15 @@
                 <span>Download Sbg File Excel</span>
             </button>
         </div>
+        <div class="column" style="margin-top: auto">
+            <button class="button is-pulled-right" type="button" 
+                @click="exportPdf" :disabled="!(requests.length > 0)">
+                <span class="icon is-medium">
+                    <i class="fas fa-file-pdf"></i>
+                </span>
+                <span>Download Sbg File PDF</span>
+            </button>
+        </div>
     </div>
 
     <div class="columns is-centered is-multiline">
