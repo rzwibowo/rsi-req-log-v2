@@ -3,10 +3,12 @@ const main_script = new Vue({
     data: {
         users: [],
         user: {},
-        open: false
+        open: false,
+        units: []
     },
     mounted: function() {
         this.listUsers()
+        this.listUnit()
     },
     computed: {
         headerModal: function () {
@@ -43,6 +45,11 @@ const main_script = new Vue({
         toggleForm: function () {
             this.open = !this.open;
             if (!this.open) { this.user = {} }
+        },
+        listUnit: function () {
+            axios.get('/api/listUnit')
+            .then(res => this.units = res.data.data.sort((a, b) => (a.nama_unit > b.nama_unit) ? 1 : -1))
+            .catch(err => console.error(err));
         },
         editUser: function (id) {
             axios.get('api/getUser/' + id)

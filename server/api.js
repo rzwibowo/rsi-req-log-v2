@@ -449,9 +449,10 @@ router.delete('/deleteKategori/:idkategori', (req, res) => {
 //#endregion KATEGORI data operation
 
 //#region LAPORAN data operation
-router.get('/lapHarian/:tgl/:idpetugas', (req, res) => {
+router.get('/lapHarian/:tgl/:idunit/:idpetugas', (req, res) => {
     const lap = new laporan()
-    const lap_harian = lap.bulanan(req.params.tgl,
+    const lap_harian = lap.harian(req.params.tgl,
+        req.params.idunit,
         req.params.idpetugas)
     lap_harian.then(result => {
         const data = result;
@@ -468,9 +469,10 @@ router.get('/lapHarian/:tgl/:idpetugas', (req, res) => {
     })
 });
 
-router.get('/lapBulanan/:bln/:idpetugas', (req, res) => {
+router.get('/lapBulanan/:bln/:idunit/:idpetugas', (req, res) => {
     const lap = new laporan()
     const lap_bulanan = lap.bulanan(req.params.bln,
+        req.params.idunit,
         req.params.idpetugas)
     lap_bulanan.then(result => {
         const data = result;
@@ -487,10 +489,12 @@ router.get('/lapBulanan/:bln/:idpetugas', (req, res) => {
     })
 });
 
-router.get('/lapTriwulan/:thn/:triw/:idpetugas', (req, res) => {
+router.get('/lapTriwulan/:thn/:triw/:idunit/:idpetugas', (req, res) => {
     const lap = new laporan()
     const lap_triwulan = lap.triwulan(req.params.thn,
-        req.params.triw, req.params.idpetugas)
+        req.params.triw,
+        req.params.idunit,
+        req.params.idpetugas)
     lap_triwulan.then(result => {
         const data = result;
         res.status(200).send({
@@ -510,9 +514,11 @@ router.get('/lapTriwulan/:thn/:triw/:idpetugas', (req, res) => {
 //#region USER data operation
 router.post('/login', (req, res) => {
     const pwd = crypto.createHash('md5').update(req.body.psword).digest("hex");
-    connection.query(`SELECT id_user, username, nama_lengkap, level
-        FROM t_user
-        WHERE username = ? AND psword = ? AND is_aktif = 1
+    connection.query(`SELECT id_user, username, nama_lengkap, level,
+            aa.id_unit, nama_unit
+        FROM t_user aa
+            LEFT JOIN t_unit bb ON aa.id_unit = bb.id_unit
+        WHERE username = ? AND psword = ? AND aa.is_aktif = 1
         LIMIT 1`,
         [req.body.username, pwd],
         function (err, result) {
@@ -541,7 +547,36 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/listUsers', (req, res) => {
-    connection.query("SELECT id_user, username, nama_lengkap, level FROM t_user",
+    connection.query(`SELECT id_user, username, nama_lengkap, level, 
+            aa.id_unit, nama_unit
+        FROM t_user aa
+        LEFT JOIN t_unit bb ON aa.id_unit = bb.id_unit
+        WHERE aa.is_aktif = 1`,
+        function (err, result) {
+            if (err) {
+                res.status(500).send({
+                    success: false,
+                    errMsg: err.code
+                })
+                console.error(err);
+            } else {
+                const data = result;
+                res.status(200).send({
+                    success: 'true',
+                    data: data
+                })
+            }
+        });
+});
+
+router.get('/listUsersByUnit/:unit_id', (req, res) => {
+    connection.query(`SELECT id_user, username, nama_lengkap, level, 
+            aa.id_unit, nama_unit
+        FROM t_user aa
+        LEFT JOIN t_unit bb ON aa.id_unit = bb.id_unit
+        WHERE aa.is_aktif = 1
+            AND aa.id_unit = ?`,
+        [req.params.unit_id],
         function (err, result) {
             if (err) {
                 res.status(500).send({
@@ -560,7 +595,7 @@ router.get('/listUsers', (req, res) => {
 });
 
 router.get('/getUser/:user_id', (req, res) => {
-    connection.query(`SELECT id_user, username, nama_lengkap, level
+    connection.query(`SELECT id_user, username, nama_lengkap, level, id_unit
         FROM t_user
         WHERE id_user = ?`,
         [req.params.user_id],
@@ -583,9 +618,9 @@ router.get('/getUser/:user_id', (req, res) => {
 
 router.post('/saveUser', (req, res) => {
     const pwd = crypto.createHash('md5').update(req.body.psword).digest("hex");
-    connection.query(`INSERT INTO t_user (username, nama_lengkap, psword, level) 
-        VALUES (?, ?, ?, ?)`,
-        [req.body.username, req.body.nama_lengkap, pwd, req.body.level],
+    connection.query(`INSERT INTO t_user (username, nama_lengkap, psword, level, id_unit) 
+        VALUES (?, ?, ?, ?, ?)`,
+        [req.body.username, req.body.nama_lengkap, pwd, req.body.level, req.body.id_unit],
         function (err, result) {
             if (err) {
                 res.status(500).send({
@@ -602,18 +637,20 @@ router.post('/saveUser', (req, res) => {
 });
 
 router.put('/updateUser', (req, res) => {
-    const sent_pwd = req.body.psword;
+    const sent_pwd = req.body.password;
     let pwd = "";
     let pwd_par = "";
 
     if (sent_pwd) {
-        pwd = crypto.createHash('md5').update(req.body.psword).digest("hex");
+        pwd = crypto.createHash('md5').update(req.body.password).digest("hex");
         pwd_par = `, psword = '${pwd}'`;
     }
 
-    connection.query(`UPDATE t_user SET username = ?, nama_lengkap = ?, level = ? ${pwd_par} 
+    connection.query(`UPDATE t_user SET username = ?, nama_lengkap = ?, level = ?,
+        id_unit = ?
+        ${pwd_par} 
         WHERE id_user = ?`,
-        [req.body.username, req.body.nama_lengkap, req.body.level, req.body.id_user],
+        [req.body.username, req.body.nama_lengkap, req.body.level, req.body.id_unit, req.body.id_user],
         function (err, result) {
             if (err) {
                 res.status(500).send({

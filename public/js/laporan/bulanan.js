@@ -7,13 +7,16 @@ const main_script = new Vue({
             'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des'],
         tahuns: [],
         petugas: 0,
+        unit: 0,
         petugases: [],
+        units: [],
         requests: [],
         awal: 0,
         akhir: 5,
         baris: 5,
         requests_paged: [],
-        is_loading: true
+        is_loading: true,
+        lv: 0
     },
     filters: {
         fmtHari: function (tgl) {
@@ -23,10 +26,11 @@ const main_script = new Vue({
         }
     },
     mounted: function () {
-        this.listUser();
         this.listTahun();
         this.setDefaultTanggal();
         this.listRequest();
+        this.listUnit();
+        this.listUser();
     },
     methods: {
         setDefaultTanggal: function () {
@@ -34,6 +38,10 @@ const main_script = new Vue({
 
             this.bulan = waktu_skr.getMonth() + 1;
             this.tahun = waktu_skr.getFullYear();
+
+            const auth = JSON.parse(localStorage.getItem('rql_usr'));
+            this.lv = auth.level;
+            this.unit = auth.id_unit;
         },
         listTahun: function () {
             const waktu_skr = new Date();
@@ -43,6 +51,10 @@ const main_script = new Vue({
                 this.tahuns.push(i);
             }
         },
+        listUserAndReq: function () {
+            this.listUser();
+            this.listRequest();
+        },
         listRequest: function () {
             this.is_loading = true;
 
@@ -50,7 +62,7 @@ const main_script = new Vue({
                 const _bln = this.bulan.toString().padStart(2, '0');
                 const fmtBulan = `${this.tahun}-${_bln}`;
 
-                axios.get('/api/lapBulanan/' + fmtBulan + "/" + this.petugas)
+                axios.get('/api/lapBulanan/' + fmtBulan + "/" + this.unit + "/" + this.petugas)
                     .then(res => {
                         this.requests = res.data.data;
                         this.awal = 0;
@@ -64,8 +76,14 @@ const main_script = new Vue({
                     .finally(() => this.is_loading = false);
             }
         },
+        listUnit: function () {
+            axios.get('/api/listUnit')
+            .then(res => this.units = res.data.data.sort((a, b) => (a.nama_unit > b.nama_unit) ? 1 : -1))
+            .catch(err => console.error(err));
+        },
         listUser: function () {
-            axios.get('/api/listUsers/')
+            const url = this.unit == 0 ? '/api/listUsers/' : '/api/listUsersByUnit/' + this.unit;
+            axios.get(url)
                 .then(res => this.petugases = res.data.data)
                 .catch(err => {
                     console.error(err);
@@ -95,7 +113,8 @@ const main_script = new Vue({
                 url: '/exportx/xlbulanan',
                 data: {
                     bulan: fmtBulan,
-                    petugas: this.petugas
+                   idunit: this.unit,
+                   petugas: this.petugas
                 },
                 responseType: 'blob'
             })
@@ -114,6 +133,7 @@ const main_script = new Vue({
                 url: '/exportp/pdfbulanan',
                 data: {
                     bulan: fmtBulan,
+                    idunit: this.unit,
                     petugas: this.petugas
                 },
                 responseType: 'blob'

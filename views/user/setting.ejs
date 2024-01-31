@@ -1,0 +1,98 @@
+<% include ../_layout/header %>
+    <section class="hero is-light">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Pengaturan Pengguna
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <div id="app">
+        <div class="columns is-centered">
+            <div class="column is-half">
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Unit</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <div class="select">
+                                    <select v-model="unit" disabled>
+                                        <option v-for="(un, index) in units" :value="un.id_unit" :key="index">
+                                            {{ un.nama_unit }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <article class="message">
+                    <div class="message-header">
+                        <p>Ganti Password</p>
+                        <button class="button is-small" v-if="!isPwdOpen" @click="isPwdOpen = !isPwdOpen">
+                            <i class="fa fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="message-body" v-if="isPwdOpen">
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">Password</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <input class="input" type="password" v-model="user.password"
+                                            placeholder="Kosongi jika tidak diubah" :required="user.password_ulang"
+                                            @change="checkMatch" :class="{ 'is-danger': is_invalid }">
+                                    </div>
+                                    <p v-show="is_invalid" class="help is-danger">{{ invalid_message }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">Ulangi Password</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <input class="input" type="password" v-model="user.password_ulang"
+                                            placeholder="Kosongi jika tidak diubah" :required="user.password"
+                                            @change="checkMatch" :class="{ 'is-danger': is_invalid }">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                        <!-- Left empty for spacing -->
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-primary" @click="saveUser"
+                                    :class="{ 'is-loading': is_loading }">
+                                    Simpan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/user/setting.js"></script>
+
+    <% include ../_layout/footer %>

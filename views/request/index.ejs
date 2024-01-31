@@ -49,14 +49,14 @@
                 <div class="field">
                     <label class="label">Unit</label>
                     <div class="select is-fullwidth">
-                        <select v-model="request.id_unit" required>
+                        <select v-model="request.id_unit" :disabled="lv !== 1" required>
                             <option v-for="(unit, index) in units" :value="unit.id_unit" :key="index">
                                 {{ unit.nama_unit }}
                             </option>
                         </select>
                     </div>
                 </div>
-                <div class="field">
+                <!-- <div class="field">
                     <label class="label">Kategori</label>
                     <div class="select is-fullwidth">
                         <select v-model="request.id_kategori" required>
@@ -65,9 +65,9 @@
                             </option>
                         </select>
                     </div>
-                </div>
+                </div> -->
                 <div class="field">
-                    <label class="label">Isi request</label>
+                    <label class="label">Isi Log</label>
                     <div class="control">
                         <textarea class="textarea" cols="30" rows="5" v-model="request.isi_request" minlength="5"
                             maxlength="500" required></textarea>

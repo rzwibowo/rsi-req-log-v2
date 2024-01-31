@@ -14,8 +14,13 @@ class Laporan {
                 : console.log('Database connected')
         });
     }
-    harian(tanggal, id_petugas) {
+    harian(tanggal, id_unit, id_petugas) {
         let petugas_par = "";
+        let unit_par = "";
+
+        if (parseInt(id_unit) !== 0) {
+            unit_par = `AND aa.id_unit = ${id_unit}`;
+        }
 
         if (parseInt(id_petugas) !== 0) {
             petugas_par = `AND aa.id_user = ${id_petugas}`;
@@ -30,6 +35,7 @@ class Laporan {
             LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
             LEFT JOIN t_kategori dd ON aa.id_kategori = dd.id_kategori
             WHERE tanggal = ?
+            ${unit_par}
             ${petugas_par}
             ORDER BY jam_lapor`,
                 [tanggal],
@@ -48,8 +54,13 @@ class Laporan {
                 });
         })
     }
-    bulanan(bulan, id_petugas) {
+    bulanan(bulan, id_unit, id_petugas) {
         let petugas_par = "";
+        let unit_par = "";
+
+        if (parseInt(id_unit) !== 0) {
+            unit_par = `AND aa.id_unit = ${id_unit}`;
+        }
 
         if (parseInt(id_petugas) !== 0) {
             petugas_par = `AND aa.id_user = ${id_petugas}`;
@@ -63,6 +74,7 @@ class Laporan {
                 LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
                 LEFT JOIN t_kategori dd ON aa.id_kategori = dd.id_kategori
                 WHERE tanggal LIKE ?
+                ${unit_par}
                 ${petugas_par}
                 ORDER BY tanggal, jam_lapor`,
                 [bulan + '%'],
@@ -81,7 +93,7 @@ class Laporan {
                 });
         })
     }
-    triwulan(tahun, triwulan, id_petugas) {
+    triwulan(tahun, triwulan, id_unit, id_petugas) {
         let daterangestart = "";
         let daterangeend = "";
 
@@ -105,6 +117,11 @@ class Laporan {
         }
 
         let petugas_par = "";
+        let unit_par = "";
+
+        if (parseInt(id_unit) !== 0) {
+            unit_par = `AND aa.id_unit = ${id_unit}`;
+        }
 
         if (parseInt(id_petugas) !== 0) {
             petugas_par = `AND aa.id_user = ${id_petugas}`;
@@ -118,6 +135,7 @@ class Laporan {
             LEFT JOIN t_unit cc ON aa.id_unit = cc.id_unit
             LEFT JOIN t_kategori dd ON aa.id_kategori = dd.id_kategori
             WHERE tanggal BETWEEN ? AND ?
+            ${unit_par}
             ${petugas_par}
             ORDER BY tanggal, jam_lapor`,
                 [daterangestart, daterangeend],

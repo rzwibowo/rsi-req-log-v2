@@ -13,9 +13,9 @@ const credentials = {
 };
 
 const port = process.env.PORT || 4000;
-// const server = app.listen(port, () => console.log("App running on port: " + port));
+const server = app.listen(port, () => console.log("App running on port: " + port));
 
-https.createServer(credentials, app).listen(port, () => console.log("app running on port " + port))
+// https.createServer(credentials, app).listen(port, () => console.log("app running on port " + port))
 
 const bodyParser = require('body-parser');
 const ejs = require('ejs');

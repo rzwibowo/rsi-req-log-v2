@@ -21,7 +21,21 @@
                 </div>
             </div>
         </div>
-        <div class="column is-one-quarter">
+        <div class="column">
+            <div class="field">
+                <label class="label">Unit</label>
+                <div class="control">
+                    <div class="select">
+                        <select v-model="unit" @change="listUserAndReq" :disabled="lv !== 1">
+                            <option value="0" selected>Semua</option>
+                            <option v-for="(un, index) in units" :key="index" :value="un.id_unit">
+                                {{ un.nama_unit }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
             <div class="field">
                 <label class="label">Petugas</label>
                 <div class="control">
@@ -57,7 +71,7 @@
 
     <div class="columns is-centered is-multiline">
         <div class="column is-narrow">
-            <h4 class="title is-4">Permintaan Tanggal {{ tanggal | fmtTanggal }}</h4>
+            <h4 class="title is-4">Log Tanggal {{ tanggal | fmtTanggal }}</h4>
         </div>
     </div>
 
@@ -70,8 +84,8 @@
                         <th>Jam Lapor</th>
                         <th>Jam Selesai</th>
                         <th>Unit</th>
-                        <th>Kategori</th>
-                        <th style="width: 15em;">Isi Request</th>
+                        <!-- <th>Kategori</th> -->
+                        <th style="width: 15em;">Isi Log</th>
                         <th style="width: 15em;">Keterangan dan RTL</th>
                         <th>Petugas</th>
                     </tr>
@@ -82,7 +96,7 @@
                         <td>{{ req.jam_lapor }}</td>
                         <td>{{ req.jam_selesai }}</td>
                         <td>{{ req.nama_unit }}</td>
-                        <td>{{ req.nama_kategori }}</td>
+                        <!-- <td>{{ req.nama_kategori }}</td> -->
                         <td>{{ req.isi_request }}</td>
                         <td>
                             {{ req.keterangan }}

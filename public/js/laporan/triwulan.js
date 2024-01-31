@@ -4,20 +4,24 @@ const main_script = new Vue({
         triwulan: "",
         tahun: "",
         tahuns: [],
+        unit: 0,
         petugas: 0,
+        units: [],
         petugases: [],
         requests: [],
         awal: 0,
         akhir: 5,
         baris: 5,
         requests_paged: [],
-        is_loading: true
+        is_loading: true,
+        lv: 0
     },
     mounted: function () {
-        this.listUser();
         this.listTahun();
         this.setDefaultTanggal();
         this.listRequest();
+        this.listUnit();
+        this.listUser();
     },
     methods: {
         setDefaultTanggal: function () {   
@@ -28,6 +32,10 @@ const main_script = new Vue({
 
             const tahun = waktu_skr.getFullYear();
             this.tahun = tahun;
+
+            const auth = JSON.parse(localStorage.getItem('rql_usr'));
+            this.lv = auth.level;
+            this.unit = auth.id_unit;
         },
         listTahun: function () {
             const waktu_skr = new Date();
@@ -37,11 +45,15 @@ const main_script = new Vue({
                 this.tahuns.push(i);
             }
         },
+        listUserAndReq: function () {
+            this.listUser();
+            this.listRequest();
+        },
         listRequest: function () {
             this.is_loading = true;
 
             if (this.triwulan && this.tahun) {
-                axios.get('/api/lapTriwulan/' + this.tahun + '/' + this.triwulan + "/" + this.petugas)
+                axios.get('/api/lapTriwulan/' + this.tahun + '/' + this.triwulan + "/" + this.unit + "/" + this.petugas)
                 .then(res => {
                     this.requests = res.data.data;
                     this.awal = 0;
@@ -55,8 +67,14 @@ const main_script = new Vue({
                 .finally(() => this.is_loading = false);
             }
         },
+        listUnit: function () {
+            axios.get('/api/listUnit')
+            .then(res => this.units = res.data.data.sort((a, b) => (a.nama_unit > b.nama_unit) ? 1 : -1))
+            .catch(err => console.error(err));
+        },
         listUser: function () {
-            axios.get('/api/listUsers/')
+            const url = this.unit == 0 ? '/api/listUsers/' : '/api/listUsersByUnit/' + this.unit;
+            axios.get(url)
             .then(res => this.petugases = res.data.data)
             .catch(err => {
                 console.error(err);
@@ -84,7 +102,8 @@ const main_script = new Vue({
                 data: {
                     tahun: this.tahun,
                     triwulan: this.triwulan,
-                    petugas: this.petugas
+                   idunit: this.unit,
+                   petugas: this.petugas
                 },
                 responseType: 'blob'
             })
@@ -101,6 +120,7 @@ const main_script = new Vue({
                 data: {
                     tahun: this.tahun,
                     triwulan: this.triwulan,
+                    idunit: this.unit,
                     petugas: this.petugas
                 },
                 responseType: 'blob'

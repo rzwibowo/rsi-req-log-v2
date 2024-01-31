@@ -14,6 +14,7 @@ router.post('/pdfharian', (req, res) => {
     let doc = new PDFDocument({ margin: 30, size: 'LEGAL', layout: 'landscape' });
     const lap = new laporan();
     const lap_harian = lap.harian(req.body.tanggal,
+        req.body.idunit,
         req.body.petugas);
     lap_harian.then(result => {
         const resready = result.body.map(v => Object.assign({}, v));
@@ -47,12 +48,12 @@ router.post('/pdfharian', (req, res) => {
                         width: 100,
                         renderer: null
                     },
-                    {
-                        label: 'Kategori',
-                        property: 'nama_kategori',
-                        width: 70,
-                        renderer: null
-                    },
+                    // {
+                    //     label: 'Kategori',
+                    //     property: 'nama_kategori',
+                    //     width: 70,
+                    //     renderer: null
+                    // },
                     {
                         label: 'Isi Request',
                         property: 'isi_request',
@@ -99,6 +100,7 @@ router.post('/pdfbulanan', (req, res) => {
     let doc = new PDFDocument({ margin: 30, size: 'LEGAL', layout: 'landscape' });
     const lap = new laporan();
     const lap_bulanan = lap.bulanan(req.body.bulan,
+        req.body.idunit,
         req.body.petugas);
     lap_bulanan.then(result => {
         const resready = result.body.map(v => Object.assign({}, v));
@@ -132,12 +134,12 @@ router.post('/pdfbulanan', (req, res) => {
                         width: 100,
                         renderer: null
                     },
-                    {
-                        label: 'Kategori',
-                        property: 'nama_kategori',
-                        width: 70,
-                        renderer: null
-                    },
+                    // {
+                    //     label: 'Kategori',
+                    //     property: 'nama_kategori',
+                    //     width: 70,
+                    //     renderer: null
+                    // },
                     {
                         label: 'Isi Request',
                         property: 'isi_request',
@@ -184,7 +186,9 @@ router.post('/pdftriwulan', (req, res) => {
     let doc = new PDFDocument({ margin: 30, size: 'LEGAL', layout: 'landscape' });
     const lap = new laporan();
     const lap_triwulan = lap.triwulan(req.body.tahun,
-        req.body.triwulan, req.body.petugas);
+        req.body.triwulan, 
+        req.body.idunit,
+        req.body.petugas);
     lap_triwulan.then(result => {
         const resready = result.body.map(v => Object.assign({}, v));
         doc.pipe(res);
@@ -217,12 +221,12 @@ router.post('/pdftriwulan', (req, res) => {
                         width: 100,
                         renderer: null
                     },
-                    {
-                        label: 'Kategori',
-                        property: 'nama_kategori',
-                        width: 70,
-                        renderer: null
-                    },
+                    // {
+                    //     label: 'Kategori',
+                    //     property: 'nama_kategori',
+                    //     width: 70,
+                    //     renderer: null
+                    // },
                     {
                         label: 'Isi Request',
                         property: 'isi_request',

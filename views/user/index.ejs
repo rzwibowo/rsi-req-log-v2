@@ -18,6 +18,7 @@
                         <th>ID</th>
                         <th>Username</th>
                         <th>Nama</th>
+                        <th>Unit</th>
                         <th>Level</th>
                         <th>Opsi</th>
                     </tr>
@@ -27,6 +28,7 @@
                         <td>{{ user.id_user }}</td>
                         <td>{{ user.username }}</td>
                         <td>{{ user.nama_lengkap }}</td>
+                        <td>{{ user.nama_unit }}</td>
                         <td>{{ user.level === 0 ? "User" : "Admin" }}</td>
                         <td>
                             <button class="button is-text" @click="editUser(user.id_user)" title="Ubah">
@@ -74,6 +76,17 @@
                                 <div class="control">
                                     <input class="input" type="password" name="password" v-model="user.psword" style="width: 30em"
                                         :placeholder="user.id_user ? 'Kosongi jika tidak diubah' : ''" :required="!user.id_user">                                
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Unit</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select v-model="user.id_unit">
+                                            <option v-for="(un, index) in units" :key="index" :value="un.id_unit">
+                                                {{ un.nama_unit }}</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="field">

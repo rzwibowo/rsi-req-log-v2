@@ -15,6 +15,7 @@ const main_script = new Vue({
             img_name: "",
             old_img: ""
         },
+        lv: 0,
         units: [],
         kategoris: [],
         file: '',
@@ -30,7 +31,10 @@ const main_script = new Vue({
         setDefault: function () {
             const auth = JSON.parse(localStorage.getItem('rql_usr'));
             const id_user = auth.id_user;
+            const id_unit = auth.id_unit;
+            this.lv = auth.level;
             this.request.id_user = id_user;
+            this.request.id_unit = id_unit;
 
             const waktu_skr = new Date();
 

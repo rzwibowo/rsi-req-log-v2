@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>REQUEST LOG</title>
+    <title>K LOG</title>
     <link rel="stylesheet" href="/css/bulma.min.css">
     <link rel="stylesheet" href="/fontawesome/css/all.min.css">
     
@@ -17,7 +17,7 @@
     <nav class="navbar is-transparent is-success" id="nav-main">
         <div class="navbar-brand">
             <a class="navbar-item" href="/">
-                <h4 class="title">REQUEST LOG</h4>
+                <h4 class="title">K LOG</h4>
             </a>
             <div class="navbar-burger burger" data-target="navbarExampleTransparentExample" @click="isOpen = !isOpen"
                 :class="{'is-active': isOpen}">
@@ -34,17 +34,17 @@
                 </a>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link" href="#">
-                        Request
+                        Log
                     </a>
                     <div class="navbar-dropdown is-boxed">
                         <a class="navbar-item" href="/request">
-                            Input Request
+                            Input Log
                         </a>
                         <a class="navbar-item" href="/request/listtoday">
-                            Request Hari Ini
+                            Log Hari Ini
                         </a>
                         <a class="navbar-item" href="/request/list">
-                            Semua Request Log
+                            Semua Log
                         </a>
                     </div>
                 </div>
@@ -54,19 +54,19 @@
                     </a>
                     <div class="navbar-dropdown is-boxed">
                         <a class="navbar-item" href="/laporan/harian">
-                            Laporan Request per Hari
+                            Laporan per Hari
                         </a>
                         <a class="navbar-item" href="/laporan/bulanan">
-                            Laporan Request per Bulan
+                            Laporan per Bulan
                         </a>
                         <a class="navbar-item" href="/laporan/triwulan">
-                            Laporan Request triwulan
+                            Laporan triwulan
                         </a>
                     </div>
                 </div>
-                <a class="navbar-item" href="/kategori" v-if="user.level === 1">
+                <!-- <a class="navbar-item" href="/kategori" v-if="user.level === 1">
                     Kategori
-                </a>
+                </a> -->
                 <a class="navbar-item" href="/unit" v-if="user.level === 1">
                     Unit
                 </a>
@@ -76,34 +76,19 @@
             </div>
 
             <div class="navbar-end">
-                <span class="navbar-item">
-                    Petugas: &nbsp; <b>{{ user.username }}</b>
-                </span>
+                <a class="navbar-item" href="/user/setting">
+                    <div class="tile is-ancestor is-vertical">
+                        <div class="tile">
+                            Petugas: &nbsp; <b>{{ user.username }}</b>
+                        </div>
+                        <div class="tile">
+                            <span class="tag is-dark">{{user.nama_unit}}</span>
+                        </div>
+                    </div>
+                </a>
                 <a class="navbar-item" href="#" @click="logout">
                     Keluar
                 </a>
-                <div class="navbar-item">
-                    <div class="field is-grouped">
-                        <p class="control">
-                            <a class="button is-light" data-social-network="Twitter" target="_blank"
-                                href="https://twitter.com/rzwibowo">
-                                <span class="icon">
-                                    <i class="fab fa-twitter"></i>
-                                </span>
-                                <span>Follow Dev</span>
-                            </a>
-                        </p>
-                        <p class="control">
-                            <a class="button is-light" target="_blank"
-                                href="https://github.com/rzwibowo/rsi-req-log">
-                                <span class="icon">
-                                    <i class="fab fa-github"></i>
-                                </span>
-                                <span>View Source</span>
-                            </a>
-                        </p>
-                    </div>
-                </div>
             </div>
         </div>
     </nav>

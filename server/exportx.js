@@ -38,11 +38,11 @@ const specificationH = {
         headerStyle: styles.headerGreen,
         width: '30'
     },
-    nama_kategori: {
-        displayName: 'Kategori',
-        headerStyle: styles.headerGreen,
-        width: '30'
-    },
+    // nama_kategori: {
+    //     displayName: 'Kategori',
+    //     headerStyle: styles.headerGreen,
+    //     width: '30'
+    // },
     isi_request: {
         displayName: 'Isi Request',
         headerStyle: styles.headerGreen,
@@ -86,11 +86,11 @@ const specificationB = {
         headerStyle: styles.headerGreen,
         width: '30'
     },
-    nama_kategori: {
-        displayName: 'Kategori',
-        headerStyle: styles.headerGreen,
-        width: '30'
-    },
+    // nama_kategori: {
+    //     displayName: 'Kategori',
+    //     headerStyle: styles.headerGreen,
+    //     width: '30'
+    // },
     isi_request: {
         displayName: 'Isi Request',
         headerStyle: styles.headerGreen,
@@ -134,11 +134,11 @@ const specificationT = {
         headerStyle: styles.headerGreen,
         width: '30'
     },
-    nama_kategori: {
-        displayName: 'Kategori',
-        headerStyle: styles.headerGreen,
-        width: '30'
-    },
+    // nama_kategori: {
+    //     displayName: 'Kategori',
+    //     headerStyle: styles.headerGreen,
+    //     width: '30'
+    // },
     isi_request: {
         displayName: 'Isi Request',
         headerStyle: styles.headerGreen,
@@ -164,6 +164,7 @@ const specificationT = {
 router.post('/xlharian', (req, res) => {
     const lap = new laporan()
     const lap_harian = lap.harian(req.body.tanggal,
+        req.body.idunit,
         req.body.petugas)
     lap_harian.then(result => {
         const report = xl.buildExport(
@@ -189,6 +190,7 @@ router.post('/xlharian', (req, res) => {
 router.post('/xlbulanan', (req, res) => {
     const lap = new laporan()
     const lap_bulanan = lap.bulanan(req.body.bulan,
+        req.body.idunit,
         req.body.petugas)
     lap_bulanan.then(result => {
         const report = xl.buildExport(
@@ -214,7 +216,9 @@ router.post('/xlbulanan', (req, res) => {
 router.post('/xltriwulan/', (req, res) => {
     const lap = new laporan()
     const lap_triwulan = lap.triwulan(req.body.tahun,
-        req.body.triwulan, req.body.petugas)
+        req.body.triwulan, 
+        req.body.idunit,
+        req.body.petugas)
     lap_triwulan.then(result => {
         const report = xl.buildExport(
             [
